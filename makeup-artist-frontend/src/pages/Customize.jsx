@@ -18,6 +18,12 @@ export default function Customize() {
   const [selectedAddons, setSelectedAddons] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [name, setName] = useState("");
+const [phone, setPhone] = useState("");
+const [address, setAddress] = useState("");
+const [city, setCity] = useState("");
+const [message, setMessage] = useState("");
+const [email, setEmail] = useState("");
 
   const toggleAddon = (addon) => {
     const exists = selectedAddons.find((item) => item.id === addon.id);
@@ -102,29 +108,54 @@ export default function Customize() {
   <div className="form-row">
     <div className="form-group">
       <label>Full Name</label>
-      <input type="text" placeholder="Jane Doe" />
+     <input
+  type="text"
+  placeholder="Jane Doe"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+/>
     </div>
 
     <div className="form-group">
       <label>Phone Number</label>
-      <input type="text" placeholder="+91 9876543210" />
+      <input
+  type="text"
+  placeholder="+91 9876543210"
+  value={phone}
+  onChange={(e) => setPhone(e.target.value)}
+/>
     </div>
   </div>
 
   <div className="form-group full-width">
     <label>Email Address</label>
-    <input type="email" placeholder="jane@example.com" />
+    <input
+  type="email"
+  placeholder="jane@example.com"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
   </div>
 
   <div className="form-group full-width">
     <label>Full Address</label>
-    <input type="text" placeholder="House No, Street Name" />
+    <input
+  type="text"
+  placeholder="House No, Street Name"
+  value={address}
+  onChange={(e) => setAddress(e.target.value)}
+/>
   </div>
 
   <div className="form-row">
     <div className="form-group">
       <label>City</label>
-      <input type="text" placeholder="Mumbai" />
+      <input
+  type="text"
+  placeholder="Mumbai"
+  value={city}
+  onChange={(e) => setCity(e.target.value)}
+/>
     </div>
 
     <div className="form-group">
@@ -140,7 +171,11 @@ export default function Customize() {
 
   <div className="form-group full-width">
     <label>Special Notes (Optional)</label>
-    <textarea rows="4"></textarea>
+   <textarea
+  rows="4"
+  value={message}
+  onChange={(e) => setMessage(e.target.value)}
+></textarea>
   </div>
 </div>
 
@@ -192,7 +227,13 @@ export default function Customize() {
       selectedAddons,
       total,
       selectedDate,
-      selectedTime
+      selectedTime,
+      name,
+      phone,
+      address,
+      city,
+      message,
+      email
     }
   })
 }

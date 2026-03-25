@@ -19,11 +19,52 @@ export default function Details() {
   const total = location.state?.total || 0;
   const selectedDate = location.state?.selectedDate || "";
   const selectedTime = location.state?.selectedTime || "";
+  const name = location.state?.name || "";
+const phone = location.state?.phone || "";
+const address = location.state?.address || "";
+const city = location.state?.city || "";
+const message = location.state?.message || "";
+const email = location.state?.email || "";
 
   const serviceFee = Math.round(total * 0.05);
   const finalAmount = total + serviceFee;
 
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const handleBooking = async () => {
+  const bookingData = {
+    service: serviceName,
+    addOns: selectedAddons.map(a => a.name),
+    name,
+    phone,
+    address,
+    city,
+    date: selectedDate,
+    time: selectedTime,
+    message,
+    email
+  };
+
+  try {
+    const res = await fetch("http://localhost:5000/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bookingData)
+    });
+
+    const data = await res.json();
+    console.log("Saved:", data);
+
+    alert("Booking successful ✅");
+
+    // optional: redirect after booking
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+    alert("Error saving booking ❌");
+  }
+};
 
   return (
     <>
@@ -130,9 +171,9 @@ export default function Details() {
             <p>Pay at the time of appointment.</p>
           )}
 
-          <button className="primary-btn full">
-            Complete Booking →
-          </button>
+          <button className="primary-btn full" onClick={handleBooking}>
+  Complete Booking →
+</button>
         </div>
 
       </section>
