@@ -12,8 +12,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+// CREATE new service
+router.post("/", async (req, res) => {
+  try {
+    const newService = new Service(req.body);
+    const saved = await newService.save();
+    res.status(201).json(saved);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // POST - create a booking
 router.post("/", async (req, res) => {
+  console.log("POST /api/services hit");
   try {
     const newBooking = new Booking(req.body);
     const savedBooking = await newBooking.save();
@@ -37,5 +50,7 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
 
 module.exports = router;

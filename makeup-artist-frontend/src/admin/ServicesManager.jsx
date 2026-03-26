@@ -1,57 +1,254 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function ServicesManager() {
+export default function ServicesManage() {
+  const [services, setServices] = useState([]);
+  const [newService, setNewService] = useState({
+    name: "",
+    price: "",
+    description: "",
+    features: "",
+    duration: "",
+    available: true
+  });
 
-  const [services, setServices] = useState([
-    { id: 1, name: "Bridal Makeup", price: 250 },
-    { id: 2, name: "Evening Glam", price: 120 }
-  ]);
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-
-  const addService = () => {
-
-    const newService = {
-      id: Date.now(),
-      name,
-      price
-    };
-
-    setServices([...services, newService]);
-    setName("");
-    setPrice("");
+  const fetchServices = async () => {
+    const res = await fetch("http://localhost:5000/api/services");
+    const data = await res.json();
+    setServices(data);
   };
 
-  return (
-    <div>
+  useEffect(() => {
+    fetchServices();
+  }, []);
 
-      <h1>Manage Services</h1>
+  const updateService = async (id, updatedData) => {
+    await fetch(`http://localhost:5000/api/services/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedData)
+    });
 
-      <div className="service-form">
-        <input
-          placeholder="Service Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+    fetchServices();
+  };
 
-        <input
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
+  const addService = async () => {
+  const formData = new FormData();
 
-        <button onClick={addService}>Add Service</button>
+  formData.append("name", newService.name);
+  formData.append("price", newService.price);
+  formData.append("description", newService.description);
+  formData.append("duration", newService.duration);
+  formData.append("available", newService.available);
+  formData.append("features", newService.features);
+  formData.append("image", newService.image);
+
+  await fetch("http://localhost:5000/api/services", {
+    method: "POST",
+    body: formData
+  });
+
+  fetchServices();
+};
+
+ return (
+  <div>
+
+    <h1>Services</h1>
+
+   <div className="add-service-card">
+
+  <h3>Add New Service</h3>
+
+  <div className="form-grid">
+
+    <input
+      placeholder="Service Name"
+      onChange={(e) =>
+        setNewService({ ...newService, name: e.target.value })
+      }
+    />
+
+    <input
+      type="number"
+      placeholder="Price (₹)"
+      onChange={(e) =>
+        setNewService({ ...newService, price: e.target.value })
+      }
+    />
+
+    <input
+      placeholder="Duration (e.g. 60 mins)"
+      onChange={(e) =>
+        setNewService({ ...newService, duration: e.target.value })
+      }
+    />
+
+    <input
+      placeholder="Features (comma separated)"
+      onChange={(e) =>
+        setNewService({ ...newService, features: e.target.value })
+      }
+    />
+
+    <textarea
+      placeholder="Description"
+      onChange={(e) =>
+        setNewService({ ...newService, description: e.target.value })
+      }
+      className="full-width"
+    />
+
+    <input
+      type="file"
+      onChange={(e) =>
+        setNewService({ ...newService, image: e.target.files[0] })
+      }
+      className="full-width"
+    />
+
+  </div>
+
+  <div className="form-actions">
+
+    <label className="checkbox">
+      <input
+        type="checkbox"
+        checked={newService.available}
+        onChange={(e) =>
+          setNewService({ ...newService, available: e.target.checked })
+        }
+      />
+      Available
+    </label>
+
+    <button className="add-btn" onClick={addService}>
+      + Add Service
+    </button>
+
+  </div>
+
+</div>
+
+    {/* 🔁 EXISTING SERVICES */}
+    {services.map((s) => (
+      <div key={s._id} className="service-card-admin">
+
+        <h3>Edit Service</h3>
+
+        <div className="form-grid">
+
+          <div>
+            <label>Name</label>
+            <input
+              value={s.name}
+              onChange={(e) =>
+                updateService(s._id, { name: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label>Price</label>
+            <input
+              type="number"
+              value={s.price}
+              onChange={(e) =>
+                updateService(s._id, { price: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label>Duration</label>
+            <input
+              value={s.duration || ""}
+              onChange={(e) =>
+                updateService(s._id, { duration: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label>Features</label>
+            <input
+              value={(s.features || []).join(",")}
+              onChange={(e) =>
+                updateService(s._id, {
+                  features: e.target.value.split(",")
+                })
+              }
+            />
+          </div>
+
+          <div style={{ gridColumn: "span 2" }}>
+            <label>Description</label>
+            <textarea
+              value={s.description || ""}
+              onChange={(e) =>
+                updateService(s._id, { description: e.target.value })
+              }
+            />
+          </div>
+
+          <div style={{ gridColumn: "span 2" }}>
+            <label>Current Image</label>
+            {s.image && (
+              <img
+                src={`http://localhost:5000/uploads/${s.image}`}
+                alt=""
+                style={{ width: "120px", borderRadius: "8px" }}
+              />
+            )}
+          </div>
+
+          <div style={{ gridColumn: "span 2" }}>
+            <label>Change Image</label>
+            <input
+              type="file"
+              onChange={(e) => {
+                const formData = new FormData();
+                formData.append("image", e.target.files[0]);
+
+                fetch(`http://localhost:5000/api/services/${s._id}`, {
+                  method: "PUT",
+                  body: formData
+                }).then(fetchServices);
+              }}
+            />
+          </div>
+
+        </div>
+
+        <div className="service-actions">
+
+          <label>
+            <input
+              type="checkbox"
+              checked={s.available}
+              onChange={(e) =>
+                updateService(s._id, { available: e.target.checked })
+              }
+            />
+            Available
+          </label>
+
+          <button
+            className="delete-btn"
+            onClick={async () => {
+              await fetch(`http://localhost:5000/api/services/${s._id}`, {
+                method: "DELETE"
+              });
+              fetchServices();
+            }}
+          >
+            Delete
+          </button>
+
+        </div>
+
       </div>
+    ))}
 
-      <ul className="service-list">
-        {services.map((s) => (
-          <li key={s.id}>
-            {s.name} - ${s.price}
-          </li>
-        ))}
-      </ul>
-
-    </div>
-  );
+  </div>
+);
 }

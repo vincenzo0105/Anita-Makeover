@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import bridalImg from "../assets/bride.jpg";
@@ -9,68 +10,39 @@ import spaImg from "../assets/hairSpa.jpg";
 export default function Services() {
   const navigate = useNavigate();
 
-  const services = [
-    {
-      title: "Bridal Package",
-      price: 10000,
-      image: bridalImg,
-      features: [
-        "Engagement",
-        "Haldi",
-        "Hairstyle + Extension"
-      ],
-      duration: "120 Minutes"
-    },
-    {
-      title: "Evening Glam",
-      price: 2500,
-      image: eveningImg,
-      features: [
-        "Contour & Highlight",
-        "Customized Eye Look",
-        "Luxury Lash Application"
-      ],
-      duration: "60 Minutes"
-    },
-    {
-      title: "Makeup Lesson",
-      price: 4000,
-      image: lessonImg,
-      features: [
-        "Product Consultation",
-        "Technique Demonstration",
-        "Step-by-Step Guide"
-      ],
-      duration: "90 Minutes"
-    },
-    {
-      title: "Party Glow",
-      price: 3000,
-      image: partyImg,
-      features: [
-        "Hairstyling",
-        "Lashes",
-        "Basic skin prep"
-      ],
-      duration: "60 Minutes"
-    },
-    {
-      title: "Hair Spa",
-      price: 2000,
-      image: spaImg,
-      features: [
-        "Hair Smoothing/Keratin",
-        "Deep Conditioning",
-        "Blow-dry styling"
-      ],
-      duration: "60 Minutes"
-    }
-  ];
+  const [services, setServices] = useState([]);
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/services")
+    .then(res => res.json())
+    .then(data => {
+
+      const formatted = data.map((s) => ({
+  title: s.name,
+  name: s.name,
+  price: s.price,
+  image: s.image, // ✅ from backend
+
+  features: s.features || [
+    "Premium Products",
+    "Expert Techniques",
+    "Professional Finish"
+  ],
+
+  duration: s.duration || "60 Minutes",
+  description: s.description || "",
+  available: s.available
+}));
+
+      setServices(formatted);
+    })
+    .catch(err => console.log(err));
+}, []);
 
   const handleBooking = (service) => {
     navigate("/customize", {
       state: {
-        serviceName: service.title,
+        serviceName: service.name,
         basePrice: service.price
       }
     });
@@ -92,15 +64,26 @@ export default function Services() {
         {services.map((service, index) => (
           <div key={index} className="service-card">
             <div className="service-img">
-  <img src={service.image} alt={service.title} />
+ <img
+  src={
+    service.image
+      ? `http://localhost:5000/uploads/${service.image}`
+      : "/placeholder.jpg"
+  }
+  alt={service.name}
+/>
 </div>
 
 
             <div className="service-content">
               <div className="service-title-row">
-                <h3>{service.title}</h3>
-                <span>From ₹{service.price}</span>
-              </div>
+  <h3>{service.title}</h3>
+  <span>From ₹{service.price}</span>
+</div>
+
+<p className="service-desc">
+  {service.description}
+</p>
 
               <ul>
                 {service.features.map((feature, i) => (
@@ -109,13 +92,18 @@ export default function Services() {
               </ul>
 
               <p className="duration">⏱ {service.duration}</p>
-
-              <button
-                className="primary-btn full"
-                onClick={() => handleBooking(service)}
-              >
-                Book This Service
-              </button>
+{!service.available && (
+  <p style={{ color: "red", fontWeight: "bold" }}>
+    Out of Service
+  </p>
+)}
+             <button
+  className="primary-btn full"
+  disabled={!service.available}
+  onClick={() => handleBooking(service)}
+>
+  {service.available ? "Book This Service" : "Unavailable"}
+</button>
             </div>
           </div>
         ))}
