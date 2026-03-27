@@ -1,18 +1,18 @@
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-
-import img1 from "../assets/make1.jpeg";
-import img2 from "../assets/mamta.jpeg";
-import img3 from "../assets/insta4a.png";
-import img4 from "../assets/certificate.jpeg";
-import img5 from "../assets/make4.jpeg";
-import img6 from "../assets/make5.jpeg";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Portfolio() {
-
   const navigate = useNavigate();
+  const [images, setImages] = useState([]);
 
-  const images = [img1, img2, img3, img4, img5, img6];
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/portfolio")
+      .then((res) => setImages(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>
@@ -27,9 +27,12 @@ export default function Portfolio() {
       </section>
 
       <div className="portfolio-grid">
-        {images.map((img, index) => (
-          <div key={index} className="portfolio-item">
-            <img src={img} alt="Makeup work" />
+        {images.map((item) => (
+          <div key={item._id} className="portfolio-item">
+            <img
+              src={`http://localhost:5000/uploads/${item.image}`}
+              alt="Makeup work"
+            />
           </div>
         ))}
       </div>

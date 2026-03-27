@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Protected from "./components/Protected";
+
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
 import Services from "./pages/Services";
@@ -27,16 +29,24 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/about" element={<About />} />
 
-        {/* Admin Panel */}
-        <Route path="/admin" element={<AdminLayout />}>
+        {/* ✅ Login route (OUTSIDE admin layout) */}
         <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* ✅ Protected Admin Panel */}
+        <Route
+          path="/admin"
+          element={
+            <Protected>
+              <AdminLayout />
+            </Protected>
+          }
+        >
           <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="bookings" element={<Bookings />} />
           <Route path="calendar" element={<BookingsCalendar />} />
-
-  <Route path="services" element={<ServicesManager />} />
-
-  <Route path="portfolio" element={<PortfolioManager />} />
+          <Route path="services" element={<ServicesManager />} />
+          <Route path="portfolio" element={<PortfolioManager />} />
         </Route>
 
       </Routes>

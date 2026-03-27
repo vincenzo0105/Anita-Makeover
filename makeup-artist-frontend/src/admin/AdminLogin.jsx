@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 export default function AdminLogin() {
 
@@ -7,17 +8,26 @@ export default function AdminLogin() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/admin/login",
+      {
+        email: email.trim(),
+        password: password.trim(),
+      }
+    );
 
-    // Temporary login check
-    if (email === "admin@anita.com" && password === "123456") {
-      navigate("/admin");
-    } else {
-      alert("Invalid credentials");
-    }
-  };
+    localStorage.setItem("token", res.data.token);
+
+    navigate("/admin/dashboard");
+
+  } catch (err) {
+    alert("Invalid credentials");
+  }
+};
 
   return (
     <div className="admin-login">

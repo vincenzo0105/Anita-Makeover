@@ -1437,3 +1437,141 @@ textarea {
   cursor: not-allowed;
   opacity: 0.7;
 }
+
+.admin-sidebar {
+  width: 240px;
+  height: 100vh;
+  background: linear-gradient(180deg, #111, #1f1f1f);
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #ff4f81;
+}
+
+.admin-link {
+  margin: 12px 0;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.admin-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  
+  color: black;
+}
+
+.admin-link.active {
+  background: #ff4f81;
+  font-weight: 800;
+  color: black;
+}
+
+/* Container */
+.portfolio-container {
+  padding: 40px;
+}
+
+/* Heading */
+.portfolio-container h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+/* Upload Box */
+.upload-box {
+  border: 2px dashed #ddd;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  margin-bottom: 40px;
+  background: #fafafa;
+  transition: 0.3s ease;
+}
+
+.upload-box:hover {
+  border-color: #ff4f81;
+  background: #fff;
+}
+
+.upload-box input {
+  margin-bottom: 10px;
+}
+
+/* Grid */
+
+
+/* Card */
+.portfolio-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Image */
+.portfolio-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Delete Button (FIXED POSITION INSIDE CARD) */
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff4f81;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+/* Show delete button on hover */
+.portfolio-card:hover .delete-btn {
+  opacity: 1;
+}
+
+/* Slight hover effect */
+.delete-btn:hover {
+  background: #e8436f;
+}
+
+.logout-btn {
+  margin: 20px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #ff4f81;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #e8436f;
+}
+
+
+
+
