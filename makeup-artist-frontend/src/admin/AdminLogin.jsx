@@ -8,26 +8,28 @@ export default function AdminLogin() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-const handleLogin = async (e) => {
-  e.preventDefault();
 
-  try {
-    const res = await axios.post(
-      "http://localhost:5000/admin/login",
-      {
-        email: email.trim(),
-        password: password.trim(),
-      }
-    );
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    localStorage.setItem("token", res.data.token);
+    try {
+      const res = await axios.post(
+        "https://makeup-artist-website-9q3p.onrender.com/admin/login", // ✅ updated
+        {
+          email: email.trim(),
+          password: password.trim(),
+        }
+      );
 
-    navigate("/admin/dashboard");
+      localStorage.setItem("token", res.data.token);
 
-  } catch (err) {
-    alert("Invalid credentials");
-  }
-};
+      navigate("/admin/dashboard");
+
+    } catch (err) {
+      console.error(err);
+      alert("Invalid credentials or server error");
+    }
+  };
 
   return (
     <div className="admin-login">
