@@ -194,7 +194,7 @@ export default function ServicesManage() {
             <label>Current Image</label>
             {s.image && (
               <img
-                src={`http://localhost:5000/uploads/${s.image}`}
+                src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${s.image}`}
                 alt=""
                 style={{ width: "120px", borderRadius: "8px" }}
               />
