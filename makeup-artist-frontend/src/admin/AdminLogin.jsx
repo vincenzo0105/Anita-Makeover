@@ -1,20 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function AdminLogin() {
-
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // ✅ Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/admin/dashboard");
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.post(
-        "https://makeup-artist-website-9q3p.onrender.com/admin/login", // ✅ updated
+        "https://makeup-artist-website-9q3p.onrender.com/admin/login",
         {
           email: email.trim(),
           password: password.trim(),
@@ -24,7 +31,6 @@ export default function AdminLogin() {
       localStorage.setItem("token", res.data.token);
 
       navigate("/admin/dashboard");
-
     } catch (err) {
       console.error(err);
       alert("Invalid credentials or server error");
@@ -33,9 +39,7 @@ export default function AdminLogin() {
 
   return (
     <div className="admin-login">
-
       <form className="login-card" onSubmit={handleLogin}>
-
         <h2>Admin Login</h2>
 
         <input
@@ -53,9 +57,7 @@ export default function AdminLogin() {
         />
 
         <button type="submit">Login</button>
-
       </form>
-
     </div>
   );
 }
