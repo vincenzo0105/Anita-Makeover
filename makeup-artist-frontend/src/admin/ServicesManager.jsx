@@ -233,16 +233,24 @@ export default function ServicesManage() {
           </label>
 
           <button
-            className="delete-btn"
-            onClick={async () => {
-              await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services/${s._id}`, {
-                method: "DELETE"
-              });
-              fetchServices();
-            }}
-          >
-            Delete
-          </button>
+  className="delete-service-btn"
+  style={{
+    background: "red",
+    color: "white",
+    padding: "8px 12px",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer"
+  }}
+  onClick={async () => {
+    await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services/${s._id}`, {
+      method: "DELETE"
+    });
+    fetchServices();
+  }}
+>
+  Delete
+</button>
 
         </div>
 
