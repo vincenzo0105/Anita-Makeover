@@ -9,7 +9,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/portfolio")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/portfolio`)
       .then((res) => setImages(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -30,7 +30,7 @@ export default function Portfolio() {
         {images.map((item) => (
           <div key={item._id} className="portfolio-item">
             <img
-              src={`http://localhost:5000/uploads/${item.image}`}
+              src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${item.image}`}
               alt="Makeup work"
             />
           </div>

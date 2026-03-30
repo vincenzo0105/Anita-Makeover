@@ -6,7 +6,7 @@ export default function Bookings() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/bookings")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`)
       .then(res => res.json())
       .then(data => {
         console.log("Fetched bookings:", data);
@@ -17,7 +17,7 @@ export default function Bookings() {
 
   const updateStatus = async (id, status) => {
     try {
-      await fetch(`http://localhost:5000/api/bookings/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -26,7 +26,7 @@ export default function Bookings() {
       });
 
       // refresh bookings
-      const res = await fetch("http://localhost:5000/api/bookings");
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`);
       const data = await res.json();
       setBookings(data);
 

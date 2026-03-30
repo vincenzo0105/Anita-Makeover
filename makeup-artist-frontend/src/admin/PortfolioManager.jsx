@@ -11,7 +11,7 @@ export default function PortfolioManager() {
 
   const fetchImages = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/portfolio");
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/portfolio`);
       setImages(res.data);
     } catch (err) {
       console.log(err);
@@ -29,7 +29,7 @@ export default function PortfolioManager() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/portfolio",
+        `${import.meta.env.VITE_API_BASE_URL}/portfolio`,
         formData
       );
 
@@ -42,7 +42,7 @@ export default function PortfolioManager() {
   // Delete image
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/portfolio/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/portfolio/${id}`);
       setImages(images.filter((img) => img._id !== id));
     } catch (err) {
       console.log(err);
@@ -64,7 +64,7 @@ export default function PortfolioManager() {
     {images.map((img) => (
       <div key={img._id} className="portfolio-card">
         <img
-          src={`http://localhost:5000/uploads/${img.image}`}
+          src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${img.image}`}
           alt="portfolio"
         />
 

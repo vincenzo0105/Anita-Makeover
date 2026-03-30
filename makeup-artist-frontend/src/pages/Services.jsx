@@ -13,7 +13,7 @@ export default function Services() {
   const [services, setServices] = useState([]);
 
 useEffect(() => {
-  fetch("http://localhost:5000/api/services")
+  fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services`)
     .then(res => res.json())
     .then(data => {
 
@@ -67,7 +67,7 @@ useEffect(() => {
  <img
   src={
     service.image
-      ? `http://localhost:5000/uploads/${service.image}`
+      ? `${import.meta.env.VITE_API_BASE_URL}/uploads/${service.image}`
       : "/placeholder.jpg"
   }
   alt={service.name}

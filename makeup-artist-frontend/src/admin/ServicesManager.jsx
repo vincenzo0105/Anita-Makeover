@@ -12,7 +12,7 @@ export default function ServicesManage() {
   });
 
   const fetchServices = async () => {
-    const res = await fetch("http://localhost:5000/api/services");
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services`);
     const data = await res.json();
     setServices(data);
   };
@@ -22,7 +22,7 @@ export default function ServicesManage() {
   }, []);
 
   const updateService = async (id, updatedData) => {
-    await fetch(`http://localhost:5000/api/services/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData)
@@ -42,7 +42,7 @@ export default function ServicesManage() {
   formData.append("features", newService.features);
   formData.append("image", newService.image);
 
-  await fetch("http://localhost:5000/api/services", {
+  await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services`, {
     method: "POST",
     body: formData
   });
@@ -209,7 +209,7 @@ export default function ServicesManage() {
                 const formData = new FormData();
                 formData.append("image", e.target.files[0]);
 
-                fetch(`http://localhost:5000/api/services/${s._id}`, {
+                fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services/${s._id}`, {
                   method: "PUT",
                   body: formData
                 }).then(fetchServices);
@@ -235,7 +235,7 @@ export default function ServicesManage() {
           <button
             className="delete-btn"
             onClick={async () => {
-              await fetch(`http://localhost:5000/api/services/${s._id}`, {
+              await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services/${s._id}`, {
                 method: "DELETE"
               });
               fetchServices();
