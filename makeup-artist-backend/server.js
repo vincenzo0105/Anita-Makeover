@@ -14,8 +14,7 @@ const adminAuthRoutes = require("./routes/adminAuth");
 // ✅ FIRST: middleware
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://makeup-artist-website-9q3p.onrender.com',
-  'https://makeup-artist-website-9q3p.onrender.com/'
+  'https://makeup-artist-website-two.vercel.app'
 ];
 app.use(cors({
   origin: function (origin, callback) {
