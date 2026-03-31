@@ -19,11 +19,11 @@ export default function Customize() {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [name, setName] = useState("");
-const [phone, setPhone] = useState("");
-const [address, setAddress] = useState("");
-const [city, setCity] = useState("");
-const [message, setMessage] = useState("");
-const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
 
   const toggleAddon = (addon) => {
     const exists = selectedAddons.find((item) => item.id === addon.id);
@@ -41,12 +41,60 @@ const [email, setEmail] = useState("");
     basePrice +
     selectedAddons.reduce((sum, addon) => sum + addon.price, 0);
 
+  // ✅ VALIDATION FUNCTION
+  const handleContinue = () => {
+    if (
+      !name.trim() ||
+      !phone.trim() ||
+      !email.trim() ||
+      !address.trim() ||
+      !city.trim() ||
+      !selectedDate ||
+      !selectedTime
+    ) {
+      alert("Please fill all required fields ⚠️");
+      return;
+    }
+
+    // 📱 Phone validation
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone)) {
+      alert("Phone number must be exactly 10 digits 📱");
+      return;
+    }
+
+    // 📧 Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address 📧");
+      return;
+    }
+
+    navigate("/details", {
+      state: {
+        serviceName,
+        basePrice,
+        selectedAddons,
+        total,
+        selectedDate,
+        selectedTime,
+        name,
+        phone,
+        address,
+        city,
+        message,
+        email
+      }
+    });
+  };
+
   return (
     <>
       <Navbar />
 
       <section className="customize-container">
-        {/* LEFT SIDE */}
+        
+        {/* LEFT */}
         <div className="customize-left">
           <h1>Customize Your Experience</h1>
 
@@ -60,7 +108,7 @@ const [email, setEmail] = useState("");
             return (
               <label
                 key={addon.id}
-                className={`addon-card ₹{isSelected ? "selected" : ""}`}
+                className={`addon-card ${isSelected ? "selected" : ""}`}
               >
                 <div className="addon-left">
                   <input
@@ -84,6 +132,7 @@ const [email, setEmail] = useState("");
                 <label>Select Date</label>
                 <input
                   type="date"
+                  required
                   min={new Date().toISOString().split("T")[0]}
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
@@ -94,6 +143,7 @@ const [email, setEmail] = useState("");
                 <label>Select Time</label>
                 <input
                   type="time"
+                  required
                   value={selectedTime}
                   onChange={(e) => setSelectedTime(e.target.value)}
                 />
@@ -101,87 +151,90 @@ const [email, setEmail] = useState("");
             </div>
           </div>
 
-          {/* CLIENT DETAILS */}
-         <div className="client-info">
-  <h3 className="section-title">Who are we glamming?</h3>
+          {/* CLIENT INFO */}
+          <div className="client-info">
+            <h3 className="section-title">Who are we glamming?</h3>
 
-  <div className="form-row">
-    <div className="form-group">
-      <label>Full Name</label>
-     <input
-  type="text"
-  placeholder="Jane Doe"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-/>
-    </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
 
-    <div className="form-group">
-      <label>Phone Number</label>
-      <input
-  type="text"
-  placeholder="+91 9876543210"
-  value={phone}
-  onChange={(e) => setPhone(e.target.value)}
-/>
-    </div>
-  </div>
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="tel"
+                  required
+                  maxLength="10"
+                  value={phone}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, "");
+                    setPhone(value);
+                  }}
+                />
+              </div>
+            </div>
 
-  <div className="form-group full-width">
-    <label>Email Address</label>
-    <input
-  type="email"
-  placeholder="jane@example.com"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-/>
-  </div>
+            <div className="form-group full-width">
+              <label>Email Address</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-  <div className="form-group full-width">
-    <label>Full Address</label>
-    <input
-  type="text"
-  placeholder="House No, Street Name"
-  value={address}
-  onChange={(e) => setAddress(e.target.value)}
-/>
-  </div>
+            <div className="form-group full-width">
+              <label>Full Address</label>
+              <input
+                type="text"
+                required
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
 
-  <div className="form-row">
-    <div className="form-group">
-      <label>City</label>
-      <input
-  type="text"
-  placeholder="Mumbai"
-  value={city}
-  onChange={(e) => setCity(e.target.value)}
-/>
-    </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>City</label>
+                <input
+                  type="text"
+                  required
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </div>
 
-    <div className="form-group">
-      <label>State</label>
-      <input type="text" placeholder="Maharashtra" />
-    </div>
-  </div>
+              <div className="form-group">
+                <label>State</label>
+                <input type="text" placeholder="Maharashtra" />
+              </div>
+            </div>
 
-  <div className="form-group">
-    <label>Pincode</label>
-    <input type="text" placeholder="400001" />
-  </div>
+            <div className="form-group">
+              <label>Pincode</label>
+              <input type="text" placeholder="400001" />
+            </div>
 
-  <div className="form-group full-width">
-    <label>Special Notes (Optional)</label>
-   <textarea
-  rows="4"
-  value={message}
-  onChange={(e) => setMessage(e.target.value)}
-></textarea>
-  </div>
-</div>
-
+            <div className="form-group full-width">
+              <label>Special Notes (Optional)</label>
+              <textarea
+                rows="4"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              ></textarea>
+            </div>
+          </div>
         </div>
 
-        {/* RIGHT SIDE */}
+        {/* RIGHT */}
         <div className="customize-right">
           <div className="summary-box">
             <h3>Booking Summary</h3>
@@ -217,42 +270,21 @@ const [email, setEmail] = useState("");
               <span>₹{total}</span>
             </div>
 
-           <button
-  className="primary-btn full"
-  onClick={() =>
-  navigate("/details", {
-    state: {
-      serviceName,
-      basePrice,
-      selectedAddons,
-      total,
-      selectedDate,
-      selectedTime,
-      name,
-      phone,
-      address,
-      city,
-      message,
-      email
-    }
-  })
-}
-
->
-  Continue to Details →
-</button>
-
+            <button
+              className="primary-btn full"
+              onClick={handleContinue}
+            >
+              Continue to Details →
+            </button>
           </div>
 
-          {/* ✅ NEW SUPPORT BOX BELOW SUMMARY */}
+          {/* ✅ SUPPORT BOX RESTORED */}
           <div className="summary-support">
             <h4>Any questions?</h4>
             <p>
               Call us at <strong>+91 8369394088</strong>
               <br />
-              <span className="whatsapp-note">
-                (WhatsApp calls only)
-              </span>
+              <span className="whatsapp-note">(WhatsApp calls only)</span>
             </p>
 
             <a
@@ -265,6 +297,7 @@ const [email, setEmail] = useState("");
             </a>
           </div>
         </div>
+
       </section>
     </>
   );
