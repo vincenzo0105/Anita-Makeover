@@ -3,44 +3,62 @@ const mongoose = require("mongoose");
 const bookingSchema = new mongoose.Schema({
   service: {
     type: String,
-    required: true
+    required: [true, "Service is required"]
   },
+
   addOns: [
     {
       type: String
     }
   ],
+
   name: {
     type: String,
-    required: true
+    required: [true, "Name is required"]
   },
+
   phone: {
     type: String,
-    required: true
+    required: [true, "Phone number is required"],
+    match: [/^[0-9]{10}$/, "Phone number must be exactly 10 digits"]
   },
+
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"]
+  },
+
   address: {
     type: String,
-    required: true
+    required: [true, "Address is required"]
   },
+
   city: {
     type: String,
-    required: true
+    required: [true, "City is required"]
   },
+
   date: {
     type: String,
-    required: true
+    required: [true, "Date is required"]
   },
+
   time: {
     type: String,
-    required: true
+    required: [true, "Time is required"]
   },
+
   message: {
-    type: String
+    type: String,
+    default: ""
   },
+
   status: {
-  type: String,
-  default: "Pending"
-}
+    type: String,
+    default: "Pending"
+  }
+
 }, {
   timestamps: true
 });
