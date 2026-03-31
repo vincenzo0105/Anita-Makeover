@@ -82,6 +82,8 @@ export default function Bookings() {
           <tr>
             <th>Client</th>
             <th>Service</th>
+            <th>Phone</th>
+            <th>Email</th>
             <th>Date</th>
             <th>Time</th>
             <th>Status</th>
@@ -99,6 +101,8 @@ export default function Bookings() {
               <tr key={b._id}>
                 <td>{b.name}</td>
                 <td>{b.service}</td>
+                 <td>{b.phone || "-"}</td>
+                <td>{b.email || "-"}</td>
                 <td>{b.date}</td>
                 <td>{b.time}</td>
 

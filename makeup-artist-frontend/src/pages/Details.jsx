@@ -31,8 +31,9 @@ const email = location.state?.email || "";
 
   const [paymentMethod, setPaymentMethod] = useState("card");
   const handleBooking = async () => {
+
   const bookingData = {
-    service: serviceName,
+    service: serviceName, // Ensure this is 'service', not 'serviceName'
     addOns: selectedAddons.map(a => a.name),
     name,
     phone,
@@ -43,6 +44,7 @@ const email = location.state?.email || "";
     message,
     email
   };
+  console.log("Booking payload:", bookingData);
 
   try {
     const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`, {

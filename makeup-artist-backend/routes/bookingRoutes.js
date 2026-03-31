@@ -1,3 +1,4 @@
+console.log("🔥 THIS IS THE REAL BACKEND FILE");
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
@@ -12,45 +13,48 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-// CREATE new service
+// ✅ ONLY ONE POST ROUTE
 router.post("/", async (req, res) => {
   try {
-    const newService = new Service(req.body);
-    const saved = await newService.save();
+    console.log("BOOKING ROUTE HIT 🚀");
+    console.log("Incoming booking:", req.body);
+
+    const booking = new Booking({
+      service: req.body.service,
+      addOns: req.body.addOns,
+      name: req.body.name,
+      phone: req.body.phone,
+      email: req.body.email,
+      address: req.body.address,
+      city: req.body.city,
+      date: req.body.date,
+      time: req.body.time,
+      message: req.body.message,
+      status: "Pending"
+    });
+
+    const saved = await booking.save();
     res.status(201).json(saved);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+
+  } catch (err) {
+    console.error("Booking error:", err);
+    res.status(500).json({ message: err.message });
   }
 });
 
-// POST - create a booking
-router.post("/", async (req, res) => {
-  console.log("POST /api/services hit");
-  try {
-    const newBooking = new Booking(req.body);
-    const savedBooking = await newBooking.save();
-
-    res.status(201).json(savedBooking);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
+// UPDATE status
 router.put("/:id", async (req, res) => {
   try {
-    const updatedBooking = await Booking.findByIdAndUpdate(
+    const updated = await Booking.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status },
       { new: true }
     );
 
-    res.json(updatedBooking);
+    res.json(updated);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
-
-
 
 module.exports = router;

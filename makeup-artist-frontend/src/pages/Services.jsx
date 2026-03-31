@@ -40,6 +40,10 @@ useEffect(() => {
 }, []);
 
   const handleBooking = (service) => {
+    if (!service || !service.name) {
+      alert("Service name is missing!");
+      return;
+    }
     navigate("/customize", {
       state: {
         serviceName: service.name,
