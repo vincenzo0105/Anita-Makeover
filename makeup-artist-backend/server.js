@@ -5,29 +5,34 @@ require("dotenv").config();
 
 const app = express();
 
+// routes
 const bookingRoutes = require("./routes/bookingRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const portfolioRoutes = require("./routes/portfolio");
 const adminAuthRoutes = require("./routes/adminAuth");
+const paymentRoutes = require("./routes/payment"); // ✅ NEW
+const webhookRoutes = require("./routes/paymentWebhook");
 
 
 // ✅ FIRST: middleware
 const allowedOrigins = [
-  'http://localhost:5173',
-  'https://makeup-artist-website-two.vercel.app'
+  "http://localhost:5173",
+  "https://makeup-artist-website-two.vercel.app"
 ];
+
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
+
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
-      return callback(new Error('Not allowed by CORS'));
+      return callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true
 }));
+
 app.use(express.json());
 
 // ✅ THEN: routes
@@ -35,6 +40,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/portfolio", portfolioRoutes);
 app.use("/admin", adminAuthRoutes);
+app.use("/api/payment", paymentRoutes); // ✅ NEW
+app.use("/api/payment", webhookRoutes);
 
 // static
 app.use("/uploads", express.static("uploads"));

@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "cashfree-pg": "^5.1.0",
     "cors": "^2.8.6",
+    "nodemailer": "^8.0.4",
     "react-calendar": "^6.0.0",
     "react-router-dom": "^7.13.0"
   }

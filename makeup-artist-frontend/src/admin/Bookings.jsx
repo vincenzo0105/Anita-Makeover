@@ -6,7 +6,7 @@ export default function Bookings() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/bookings`)
       .then(res => res.json())
       .then(data => {
         console.log("Fetched bookings:", data);
@@ -17,7 +17,7 @@ export default function Bookings() {
 
   const updateStatus = async (id, status) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/bookings/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -26,7 +26,7 @@ export default function Bookings() {
       });
 
       // refresh bookings
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`);
       const data = await res.json();
       setBookings(data);
 
@@ -47,34 +47,34 @@ export default function Bookings() {
 
       {/* 🔍 Filter Buttons */}
       <div className="filter-bar">
-  <button
-    className={`filter-btn ${filter === "All" ? "active" : ""}`}
-    onClick={() => setFilter("All")}
-  >
-    All
-  </button>
+        <button
+          className={`filter-btn ${filter === "All" ? "active" : ""}`}
+          onClick={() => setFilter("All")}
+        >
+          All
+        </button>
 
-  <button
-    className={`filter-btn ${filter === "Pending" ? "active" : ""}`}
-    onClick={() => setFilter("Pending")}
-  >
-    Pending
-  </button>
+        <button
+          className={`filter-btn ${filter === "Pending" ? "active" : ""}`}
+          onClick={() => setFilter("Pending")}
+        >
+          Pending
+        </button>
 
-  <button
-    className={`filter-btn ${filter === "Confirmed" ? "active" : ""}`}
-    onClick={() => setFilter("Confirmed")}
-  >
-    Confirmed
-  </button>
+        <button
+          className={`filter-btn ${filter === "Approved" ? "active" : ""}`}
+          onClick={() => setFilter("Approved")}
+        >
+          Approved
+        </button>
 
-  <button
-    className={`filter-btn ${filter === "Cancelled" ? "active" : ""}`}
-    onClick={() => setFilter("Cancelled")}
-  >
-    Cancelled
-  </button>
-</div>
+        <button
+          className={`filter-btn ${filter === "Cancelled" ? "active" : ""}`}
+          onClick={() => setFilter("Cancelled")}
+        >
+          Cancelled
+        </button>
+      </div>
 
       <table className="booking-table">
 
@@ -94,14 +94,14 @@ export default function Bookings() {
         <tbody>
           {filteredBookings.length === 0 ? (
             <tr>
-              <td colSpan="6">No bookings found</td>
+              <td colSpan="8">No bookings found</td>
             </tr>
           ) : (
             filteredBookings.map((b) => (
               <tr key={b._id}>
                 <td>{b.name}</td>
                 <td>{b.service}</td>
-                 <td>{b.phone || "-"}</td>
+                <td>{b.phone || "-"}</td>
                 <td>{b.email || "-"}</td>
                 <td>{b.date}</td>
                 <td>{b.time}</td>
@@ -114,8 +114,8 @@ export default function Bookings() {
                 <td>
                   <button
                     className="approve-btn"
-                    disabled={b.status === "Confirmed"}
-                    onClick={() => updateStatus(b._id, "Confirmed")}
+                    disabled={b.status === "Approved"}
+                    onClick={() => updateStatus(b._id, "Approved")}
                   >
                     Approve
                   </button>

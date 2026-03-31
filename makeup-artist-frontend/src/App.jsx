@@ -7,6 +7,7 @@ import Services from "./pages/Services";
 import Customize from "./pages/Customize";
 import Details from "./pages/Details";
 import About from "./pages/About";
+import PaymentPage from "./pages/PaymentPage"; // ✅ NEW
 
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
@@ -29,10 +30,13 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/about" element={<About />} />
 
-        {/* ✅ Login route (OUTSIDE admin layout) */}
+        {/* ✅ NEW PAYMENT ROUTE */}
+        <Route path="/payment/:id" element={<PaymentPage />} />
+
+        {/* Login */}
         <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* ✅ Protected Admin Panel */}
+        {/* Admin */}
         <Route
           path="/admin"
           element={

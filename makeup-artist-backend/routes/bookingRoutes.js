@@ -1,7 +1,18 @@
 console.log("🔥 THIS IS THE REAL BACKEND FILE");
+
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
+const nodemailer = require("nodemailer"); // ✅ NEW
+
+// ✅ EMAIL SETUP (add once at top)
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 // GET all bookings
 router.get("/", async (req, res) => {
@@ -13,7 +24,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ ONLY ONE POST ROUTE
+// POST booking
 router.post("/", async (req, res) => {
   try {
     console.log("BOOKING ROUTE HIT 🚀");
@@ -42,7 +53,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// UPDATE status
+// ✅ UPDATE status + SEND EMAIL
 router.put("/:id", async (req, res) => {
   try {
     const updated = await Booking.findByIdAndUpdate(
@@ -51,8 +62,31 @@ router.put("/:id", async (req, res) => {
       { new: true }
     );
 
+    // 🎯 SEND EMAIL ONLY IF APPROVED
+    if (req.body.status === "Approved") {
+      const paymentLink = `https://makeup-artist-website-two.vercel.app/payment/${updated._id}`;
+
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: updated.email,
+        subject: "Your Booking is Approved 🎉",
+        html: `
+          <h2>Hello ${updated.name},</h2>
+          <p>Your booking has been approved by the artist.</p>
+          <p>Please complete your payment using the link below:</p>
+          <a href="${paymentLink}" target="_blank">Pay Now 💳</a>
+          <br/><br/>
+          <p>Looking forward to your glam session ✨</p>
+        `,
+      });
+
+      console.log("📧 Email sent to:", updated.email);
+    }
+
     res.json(updated);
+
   } catch (error) {
+    console.error("Update error:", error);
     res.status(500).json({ message: error.message });
   }
 });
