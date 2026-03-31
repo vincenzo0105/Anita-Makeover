@@ -62,22 +62,25 @@ router.put("/:id", async (req, res) => {
       { new: true }
     );
 
-    // 🎯 SEND EMAIL ONLY IF APPROVED
-    if (req.body.status === "Approved") {
-      const paymentLink = `https://makeup-artist-website-two.vercel.app/payment/${updated._id}`;
+    console.log("Status updated:", req.body.status);
 
+    // 👉 ADD THIS BLOCK
+    if (req.body.status === "Approved") {
+      console.log("EMAIL TRIGGERED");
+
+      // call your payment route or generate link
+      const paymentLink = `https://your-frontend.vercel.app/payment/${updated._id}`;
+
+      // send email
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: updated.email,
-        subject: "Your Booking is Approved 🎉",
+        subject: "Complete Your Booking Payment 💄",
         html: `
-          <h2>Hello ${updated.name},</h2>
-          <p>Your booking has been approved by the artist.</p>
-          <p>Please complete your payment using the link below:</p>
-          <a href="${paymentLink}" target="_blank">Pay Now 💳</a>
-          <br/><br/>
-          <p>Looking forward to your glam session ✨</p>
-        `,
+          <h2>Your booking is approved!</h2>
+          <p>Please complete your payment:</p>
+          <a href="${paymentLink}">Pay Now</a>
+        `
       });
 
       console.log("📧 Email sent to:", updated.email);
@@ -86,7 +89,7 @@ router.put("/:id", async (req, res) => {
     res.json(updated);
 
   } catch (error) {
-    console.error("Update error:", error);
+    console.error(error);
     res.status(500).json({ message: error.message });
   }
 });
