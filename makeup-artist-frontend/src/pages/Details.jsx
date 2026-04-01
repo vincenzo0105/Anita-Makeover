@@ -46,6 +46,7 @@ const email = location.state?.email || "";
     totalAmount: finalAmount
   };
   console.log("FINAL BOOKING DATA:", bookingData);
+  alert(JSON.stringify(bookingData));
 
   try {
     const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`, {
