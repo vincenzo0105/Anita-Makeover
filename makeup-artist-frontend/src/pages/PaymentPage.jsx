@@ -33,14 +33,17 @@ export default function PaymentPage() {
       }),
     });
 
-    const data = await res.json();
+  const data = await res.json();
+console.log("Cashfree response:", data);
 
-console.log("Cashfree response:", data); // 👈 ADD THIS
-
-if (data.payment_link) {
-  window.location.href = data.payment_link;
+// 👇 use session id instead of payment_link
+if (data.payment_session_id) {
+  window.Cashfree.checkout({
+    paymentSessionId: data.payment_session_id,
+    redirectTarget: "_self"
+  });
 } else {
-  alert("Payment link not received ❌");
+  alert("Payment session not received ❌");
 }
   };
 
