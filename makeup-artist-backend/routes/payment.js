@@ -31,9 +31,12 @@ router.post("/create-order", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Payment error" });
-  }
+  console.error("❌ CASHFREE ERROR FULL:", error.response?.data || error);
+  res.status(500).json({
+    error: "Payment error",
+    details: error.response?.data || error.message
+  });
+}
 });
 
 module.exports = router;
