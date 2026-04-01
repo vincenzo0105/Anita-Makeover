@@ -2,12 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Cashfree = require("cashfree-pg");
 
-// Initialize Cashfree
-Cashfree.setup({
-  mode: "sandbox",
-  appId: process.env.CASHFREE_APP_ID,
-  appSecret: process.env.CASHFREE_SECRET_KEY
-});
+// Set credentials as static properties
+Cashfree.XClientId = process.env.CASHFREE_APP_ID;
+Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
+Cashfree.XEnvironment = "sandbox";
 
 router.post("/create-order", async (req, res) => {
   try {
@@ -30,7 +28,10 @@ router.post("/create-order", async (req, res) => {
       },
     };
 
+    console.log("🔥 Creating Cashfree order with:", orderRequest);
     const response = await Cashfree.PGOrderCreate(orderRequest);
+
+    console.log("✅ Cashfree response:", response);
 
     res.json({
       payment_session_id: response.payment_session_id,
