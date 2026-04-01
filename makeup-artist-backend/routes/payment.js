@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { Cashfree } = require("cashfree-pg");
+const Cashfree = require("cashfree-pg").default;
 
-Cashfree.XClientId = process.env.CASHFREE_APP_ID;
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = "sandbox";
+const cashfree = new Cashfree({
+  apiVersion: "2023-08-01"
+});
+
+cashfree.XClientId = process.env.CASHFREE_APP_ID;
+cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
+cashfree.XEnvironment = "sandbox";
 
 router.post("/create-order", async (req, res) => {
   try {
@@ -27,9 +31,12 @@ router.post("/create-order", async (req, res) => {
       },
     };
 
-    const response = await Cashfree.PGCreateOrder("2023-08-01", orderRequest);
+    const response = await cashfree.PGCreateOrder(orderRequest);
 
-    res.json(response.data);
+    res.json({
+      payment_session_id: response.data.payment_session_id,
+      order_id: response.data.order_id
+    });
   } catch (error) {
   console.error("❌ CASHFREE ERROR FULL:", error.response?.data || error);
   res.status(500).json({
