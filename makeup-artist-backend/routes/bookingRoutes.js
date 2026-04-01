@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
     );
 
     console.log("Status updated:", req.body.status);
-console.log("Updated booking ID:", updated?._id);
+console.log("Updated booking FULL:", updated);
     // 👉 ADD THIS BLOCK
     if (req.body.status === "Approved") {
       console.log("EMAIL TRIGGERED");
@@ -93,5 +93,9 @@ console.log("Updated booking ID:", updated?._id);
     res.status(500).json({ message: error.message });
   }
 });
+if (!updated) {
+  console.log("❌ Booking not found for ID:", req.params.id);
+  return res.status(404).json({ message: "Booking not found" });
+}
 
 module.exports = router;
