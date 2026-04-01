@@ -29,7 +29,7 @@ router.post("/create-order", async (req, res) => {
     };
 
     console.log("🔥 Creating Cashfree order with:", orderRequest);
-    const response = await Cashfree.PGOrderCreate(orderRequest);
+    const response = await Cashfree.PGCreateOrder("2023-08-01", orderRequest);
 
     console.log("✅ Cashfree response:", response);
 
@@ -39,7 +39,8 @@ router.post("/create-order", async (req, res) => {
       ...response
     });
   } catch (error) {
-    console.error("❌ CASHFREE ERROR FULL:", error);
+    console.error("❌ CASHFREE ERROR:", error.message);
+    console.error("Available methods:", Object.getOwnPropertyNames(Cashfree));
     res.status(500).json({
       error: "Payment error",
       details: error.message
