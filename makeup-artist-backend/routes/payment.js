@@ -27,7 +27,7 @@ router.post("/create-order", async (req, res) => {
       },
     };
 
-    const response = await Cashfree.PGCreateOrder("2023-08-01", orderRequest);
+    const response = await Cashfree.PGOrderCreate("2023-08-01", orderRequest);
 
     res.json({
       payment_session_id: response.data?.payment_session_id,
