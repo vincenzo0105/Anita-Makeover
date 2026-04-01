@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Cashfree = require("cashfree-pg").default;
+const { Cashfree } = require("cashfree-pg");
 
-const cashfree = new Cashfree({
-  apiVersion: "2023-08-01"
-});
-
-cashfree.XClientId = process.env.CASHFREE_APP_ID;
-cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-cashfree.XEnvironment = "sandbox";
+Cashfree.XClientId = process.env.CASHFREE_APP_ID;
+Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
+Cashfree.XEnvironment = "sandbox";
 
 router.post("/create-order", async (req, res) => {
   try {
@@ -24,26 +20,28 @@ router.post("/create-order", async (req, res) => {
         customer_phone: customerPhone,
       },
       order_tags: {
-    bookingId: bookingId
-  },
+        bookingId: bookingId
+      },
       order_meta: {
-        return_url: "http://makeup-artist-website-two.vercel.app/payment-success",
+        return_url: "https://makeup-artist-website-two.vercel.app/payment-success",
       },
     };
 
-    const response = await cashfree.PGCreateOrder(orderRequest);
+    const response = await Cashfree.PGCreateOrder("2023-08-01", orderRequest);
 
     res.json({
-      payment_session_id: response.data.payment_session_id,
-      order_id: response.data.order_id
+      payment_session_id: response.data?.payment_session_id,
+      order_id: response.data?.order_id,
+      ...response.data
     });
   } catch (error) {
-  console.error("❌ CASHFREE ERROR FULL:", error.response?.data || error);
-  res.status(500).json({
-    error: "Payment error",
-    details: error.response?.data || error.message
-  });
+    console.error("❌ CASHFREE ERROR FULL:", error.response?.data || error.message);
+    res.status(500).json({
+      error: "Payment error",
+      details: error.response?.data || error.message
+    });
+  }
 }
-});
+);
 
 module.exports = router;
