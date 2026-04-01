@@ -34,6 +34,7 @@ router.post("/", async (req, res) => {
       date: req.body.date,
       time: req.body.time,
       message: req.body.message,
+      totalAmount: req.body.totalAmount,
       status: "Pending"
     });
 
