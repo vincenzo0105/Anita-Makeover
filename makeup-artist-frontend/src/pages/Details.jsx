@@ -42,7 +42,8 @@ const email = location.state?.email || "";
     date: selectedDate,
     time: selectedTime,
     message,
-    email
+    email,
+    totalAmount: finalAmount
   };
   console.log("Booking payload:", bookingData);
 
