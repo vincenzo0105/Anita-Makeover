@@ -115,7 +115,7 @@ export default function Bookings() {
                   <button
                     className="approve-btn"
                     disabled={b.status === "Approved"}
-                    onClick={() => updateStatus(b._id, "approved")}
+                    onClick={() => updateStatus(b._id, "Approved")}
                   >
                     Approve
                   </button>
