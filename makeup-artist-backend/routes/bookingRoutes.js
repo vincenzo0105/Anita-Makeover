@@ -5,14 +5,7 @@ const router = express.Router();
 const Booking = require("../models/Booking");
 const nodemailer = require("nodemailer"); // ✅ NEW
 
-// ✅ EMAIL SETUP (add once at top)
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 // GET all bookings
 router.get("/", async (req, res) => {
@@ -69,19 +62,26 @@ router.put("/:id", async (req, res) => {
       console.log("EMAIL TRIGGERED");
 
       // call your payment route or generate link
-      const paymentLink = `https://your-frontend.vercel.app/payment/${updated._id}`;
+      const paymentLink = `https://makeup-artist-website-two.vercel.app/payment/${updated._id}`;
 
       // send email
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: updated.email,
-        subject: "Complete Your Booking Payment 💄",
-        html: `
-          <h2>Your booking is approved!</h2>
-          <p>Please complete your payment:</p>
-          <a href="${paymentLink}">Pay Now</a>
-        `
-      });
+      await fetch("https://api.resend.com/emails", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    from: "onboarding@resend.dev",
+    to: updated.email,
+    subject: "Complete Your Booking Payment 💄",
+    html: `
+      <h2>Your booking is approved!</h2>
+      <p>Please complete your payment:</p>
+      <a href="${paymentLink}">Pay Now</a>
+    `
+  }),
+});
 
       console.log("📧 Email sent to:", updated.email);
     }

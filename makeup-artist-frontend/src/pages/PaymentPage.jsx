@@ -7,7 +7,7 @@ export default function PaymentPage() {
 
   // 🔹 Fetch booking details
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/bookings`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`)
       .then(res => res.json())
       .then(data => {
         const found = data.find(b => b._id === id);
@@ -19,7 +19,7 @@ export default function PaymentPage() {
   const handlePayment = async () => {
     if (!booking) return;
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-order`, {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payment/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
