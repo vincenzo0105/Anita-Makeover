@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
       date: req.body.date,
       time: req.body.time,
       message: req.body.message,
-      status: req.body.status.toLowerCase()
+      status: "Pending"
     });
 
     const saved = await booking.save();
