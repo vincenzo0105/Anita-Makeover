@@ -93,9 +93,6 @@ console.log("Updated booking FULL:", updated);
     res.status(500).json({ message: error.message });
   }
 });
-if (!updated) {
-  console.log("❌ Booking not found for ID:", req.params.id);
-  return res.status(404).json({ message: "Booking not found" });
-}
+
 
 module.exports = router;
