@@ -52,11 +52,11 @@ router.put("/:id", async (req, res) => {
     const updated = await Booking.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status },
-      { new: true }
+      { returnDocument: "after" }
     );
 
     console.log("Status updated:", req.body.status);
-
+console.log("Updated booking ID:", updated?._id);
     // 👉 ADD THIS BLOCK
     if (req.body.status === "Approved") {
       console.log("EMAIL TRIGGERED");

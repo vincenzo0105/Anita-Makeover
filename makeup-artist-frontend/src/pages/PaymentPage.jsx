@@ -34,7 +34,14 @@ export default function PaymentPage() {
     });
 
     const data = await res.json();
-    window.location.href = data.payment_link;
+
+console.log("Cashfree response:", data); // 👈 ADD THIS
+
+if (data.payment_link) {
+  window.location.href = data.payment_link;
+} else {
+  alert("Payment link not received ❌");
+}
   };
 
   return (
