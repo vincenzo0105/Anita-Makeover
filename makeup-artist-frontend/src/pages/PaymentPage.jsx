@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export default function PaymentPage() {
   const { id } = useParams();
   const [booking, setBooking] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // 🔹 Fetch booking details
   useEffect(() => {
@@ -13,38 +14,64 @@ export default function PaymentPage() {
         const found = data.find(b => b._id === id);
         setBooking(found);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Error fetching booking:", err));
   }, [id]);
 
   const handlePayment = async () => {
-    if (!booking) return;
+    if (!booking) {
+      alert("Booking not loaded ❌");
+      return;
+    }
 
-    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payment/create-order`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: booking.totalAmount || 1000, // ⚠️ adjust later
-        customerName: booking.name,
-        customerEmail: booking.email,
-        customerPhone: booking.phone,
-        bookingId: id
-      }),
-    });
+    setLoading(true);
 
-  const data = await res.json();
-console.log("Cashfree response:", data);
+    try {
+      const paymentRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payment/create-order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: booking.totalAmount,
+          customerName: booking.name,
+          customerEmail: booking.email,
+          customerPhone: booking.phone,
+          bookingId: id
+        }),
+      });
 
-// 👇 use session id instead of payment_link
-if (data.payment_session_id) {
-  window.Cashfree.checkout({
-    paymentSessionId: data.payment_session_id,
-    redirectTarget: "_self"
-  });
-} else {
-  alert("Payment session not received ❌");
-}
+      if (!paymentRes.ok) {
+        throw new Error(`Payment creation failed: ${paymentRes.status}`);
+      }
+
+      const paymentData = await paymentRes.json();
+      console.log("✅ Payment session created:", paymentData);
+
+      // Check if Cashfree SDK is loaded
+      if (!window.Cashfree) {
+        alert("Cashfree SDK not loaded ❌");
+        return;
+      }
+
+      // Check if payment_session_id exists
+      if (!paymentData.payment_session_id) {
+        console.error("❌ No payment_session_id in response:", paymentData);
+        alert("Failed to create payment session ❌");
+        return;
+      }
+
+      // Initiate payment
+      window.Cashfree.checkout({
+        paymentSessionId: paymentData.payment_session_id,
+        redirectTarget: "_self"
+      });
+
+    } catch (error) {
+      console.error("❌ Payment error:", error);
+      alert(`Payment error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,11 +80,20 @@ if (data.payment_session_id) {
 
       {booking ? (
         <>
-          <p>{booking.service}</p>
-          <p>₹{booking.totalAmount}</p>
+          <p><strong>{booking.service}</strong></p>
+          <p style={{ fontSize: "24px", fontWeight: "bold" }}>₹{booking.totalAmount}</p>
 
-          <button onClick={handlePayment}>
-            Pay Now 💳
+          <button 
+            onClick={handlePayment}
+            disabled={loading}
+            style={{ 
+              padding: "12px 30px", 
+              fontSize: "16px",
+              cursor: loading ? "not-allowed" : "pointer",
+              opacity: loading ? 0.6 : 1
+            }}
+          >
+            {loading ? "Processing..." : "Pay Now 💳"}
           </button>
         </>
       ) : (
