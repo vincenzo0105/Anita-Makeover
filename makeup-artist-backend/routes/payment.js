@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { Cashfree } = require("cashfree-pg"); // Destructure Cashfree
+const Cashfree = require("cashfree-pg");
 
 // Initialize the SDK configuration
 Cashfree.XClientId = process.env.CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = Cashfree.Environment.SANDBOX; // Use the built-in enum
+Cashfree.XEnvironment = "SANDBOX";
 
 router.post("/create-order", async (req, res) => {
   try {
