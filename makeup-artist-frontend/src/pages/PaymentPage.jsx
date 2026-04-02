@@ -54,7 +54,7 @@ if (data.payment_session_id) {
       {booking ? (
         <>
           <p>{booking.service}</p>
-          <p>₹{booking.totalAmount || 1000}</p>
+          <p>₹{booking.totalAmount}</p>
 
           <button onClick={handlePayment}>
             Pay Now 💳
