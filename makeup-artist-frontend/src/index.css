@@ -12,14 +12,6 @@ body {
 }
 
 /* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 60px;
-  background: white;
-}
-
 .logo span {
   color: #e63974;
 }
