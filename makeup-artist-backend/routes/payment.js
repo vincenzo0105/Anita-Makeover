@@ -34,10 +34,14 @@ router.post("/create-order", async (req, res) => {
     // FIX: In the new SDK, use Cashfree.PGOrderCreate
     const response = await Cashfree.PGOrderCreate("2023-08-01", orderRequest);
 
+    // Log the full response to debug
+    console.log("📦 Full Cashfree response:", JSON.stringify(response, null, 2));
+
     // The data is contained within response.data in the new SDK
-    const orderData = response.data;
+    const orderData = response.data || response;
 
     console.log("✅ Cashfree response success");
+    console.log("📌 Payment Session ID:", orderData.payment_session_id);
 
     res.json({
       payment_session_id: orderData.payment_session_id,
