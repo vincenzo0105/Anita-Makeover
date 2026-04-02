@@ -36,7 +36,7 @@ router.post("/create-order", async (req, res) => {
       },
       order_meta: {
         return_url: `https://makeup-artist-website-two.vercel.app/payment?bookingId=${bookingId}`,
-        notify_url: "https://makeup-artist-website-two.onrender.com/api/payment/webhook"
+        notify_url: "https://makeup-artist-website-9q3p.onrender.com/api/payment/webhook"
       },
       order_tags: {
         bookingId: bookingId
