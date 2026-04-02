@@ -1634,23 +1634,55 @@ textarea {
 @media (max-width: 768px) {
   /* NAVBAR */
   .navbar {
-    padding: 0 20px;
-    height: 70px;
+    padding: 0 15px;
+    height: auto;
     flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
   }
 
   body {
-    padding-top: 70px;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 20px;
-    font-size: 13px;
+    padding-top: 100px;
   }
 
   .logo {
     font-size: 18px;
+    flex: 0 0 auto;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    list-style: none;
+    flex: 1 1 auto;
+    justify-content: center;
+    order: 3;
+    width: 100%;
+    flex-basis: 100%;
+    padding: 10px 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    margin-top: 5px;
+  }
+
+  .nav-links li {
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .book-btn {
+    background: #e63974;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    flex: 0 0 auto;
   }
 
   /* HERO */
@@ -1982,7 +2014,8 @@ textarea {
 /* EXTRA SMALL PHONES (up to 480px) */
 @media (max-width: 480px) {
   .navbar {
-    padding: 0 15px;
+    padding: 0 12px;
+    gap: 8px;
   }
 
   .logo {
@@ -1990,8 +2023,18 @@ textarea {
   }
 
   .nav-links {
-    gap: 12px;
-    font-size: 12px;
+    gap: 10px;
+    font-size: 11px;
+    padding: 10px 0;
+  }
+
+  .nav-links li {
+    font-size: 11px;
+  }
+
+  .book-btn {
+    padding: 6px 15px;
+    font-size: 11px;
   }
 
   .hero {
