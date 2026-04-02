@@ -1,60 +1,82 @@
 const express = require("express");
 const router = express.Router();
-// IMPORTANT: v4 uses these specific names
-const { 
-  CFConfig, 
-  CFPaymentGatewayService, 
-  CFEnvironment, 
-  CFOrderRequest 
-} = require("cashfree-pg-sdk-nodejs"); 
+// Use the installed cashfree-pg package v4.0.10
+const Cashfree = require("cashfree-pg");
 
-// Initialize Configuration outside the route
+// Initialize Configuration
 const client_id = process.env.CASHFREE_APP_ID;
 const client_secret = process.env.CASHFREE_SECRET_KEY;
-const environment = CFEnvironment.SANDBOX; // Change to PRODUCTION when live
 
-const cfConfig = new CFConfig(environment, "2023-08-01", client_id, client_secret);
+Cashfree.XClientId = client_id;
+Cashfree.XClientSecret = client_secret;
+Cashfree.XEnvironment = "SANDBOX";
+
+console.log("✅ Cashfree SDK initialized");
 
 router.post("/create-order", async (req, res) => {
   try {
-    const { amount, customerName, customerEmail, customerPhone } = req.body;
+    const { amount, customerName, customerEmail, customerPhone, bookingId } = req.body;
 
-    // 1. You must create an instance of CFOrderRequest in v4
-    const cfOrderRequest = new CFOrderRequest();
-    cfOrderRequest.order_amount = parseFloat(amount);
-    cfOrderRequest.order_currency = "INR";
-    cfOrderRequest.customer_details = {
-      customer_id: "cust_" + Date.now(),
-      customer_name: customerName,
-      customer_email: customerEmail,
-      customer_phone: customerPhone
+    console.log("📝 Payment request:", { amount, bookingId });
+
+    // Validate input
+    if (!amount || amount <= 0 || !bookingId) {
+      return res.status(400).json({ error: "Invalid amount or bookingId" });
+    }
+
+    // Build order request for cashfree-pg v4
+    const orderRequest = {
+      order_amount: parseFloat(amount),
+      order_currency: "INR",
+      customer_details: {
+        customer_id: `CUST_${bookingId}`,
+        customer_name: customerName,
+        customer_email: customerEmail,
+        customer_phone: customerPhone
+      },
+      order_meta: {
+        return_url: `https://makeup-artist-website-two.vercel.app/payment?bookingId=${bookingId}`,
+        notify_url: "https://makeup-artist-website-two.onrender.com/api/payment/webhook"
+      },
+      order_tags: {
+        bookingId: bookingId
+      },
+      order_note: "Makeup Booking Payment"
     };
-    cfOrderRequest.order_meta = {
-      return_url: "https://makeup-artist-website-two.vercel.app/payment-success?order_id={order_id}"
-    };
 
-    console.log("🚀 Sending order to Cashfree v4...");
+    console.log("🔥 Creating order with Cashfree...");
 
-    // 2. The method name in v4 is 'cfCreateOrder'
-    const response = await CFPaymentGatewayService.cfCreateOrder(cfConfig, cfOrderRequest);
+    // Use PGOrderCreate method from cashfree-pg
+    const response = await Cashfree.PGOrderCreate("2023-08-01", orderRequest);
 
-    // 3. Response is inside .data
-    const orderData = response.data;
+    console.log("✅ Response:", JSON.stringify(response, null, 2));
+
+    // Extract order data
+    const orderData = response?.data || response;
+
+    if (!orderData?.payment_session_id) {
+      console.error("❌ Missing payment_session_id");
+      return res.status(500).json({
+        error: "Failed to create payment session",
+        debug: orderData
+      });
+    }
+
+    console.log("✅ Order created:", orderData.payment_session_id);
 
     res.json({
       payment_session_id: orderData.payment_session_id,
       order_id: orderData.order_id,
-      ...orderData
+      cf_order_id: orderData.cf_order_id
     });
 
   } catch (error) {
-    // Log the actual error to your Render console so you can see it
-    const errorMsg = error.response ? error.response.data : error.message;
-    console.error("❌ SDK ERROR:", errorMsg);
-
+    console.error("❌ Error:", error.message);
+    console.error("Error details:", error.response?.data);
+    
     res.status(500).json({
       error: "Payment error",
-      details: errorMsg
+      details: error.response?.data?.message || error.message
     });
   }
 });
