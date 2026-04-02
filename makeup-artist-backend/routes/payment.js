@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { Cashfree } = require("cashfree-pg");
+const Cashfree = require("cashfree-pg");
 
-// Initialize Cashfree SDK
+// Initialize Cashfree SDK v4.0.10
 Cashfree.XClientId = process.env.CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = "SANDBOX";
+Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
 
 router.post("/create-order", async (req, res) => {
   try {
@@ -37,8 +37,8 @@ router.post("/create-order", async (req, res) => {
 
     console.log("🔥 Creating Cashfree order:", orderRequest);
 
-    // Create order
-    const response = await Cashfree.PGCreateOrder("2023-08-01", orderRequest);
+    // Use PGOrderCreate for v4.0.10
+    const response = await Cashfree.PGOrderCreate("2023-08-01", orderRequest);
 
     console.log("✅ Cashfree Response:", JSON.stringify(response, null, 2));
 
