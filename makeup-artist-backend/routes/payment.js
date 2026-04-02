@@ -1,27 +1,35 @@
 const express = require("express");
 const router = express.Router();
 
-let Cashfree;
+let cfConfig;
+let CFPaymentGatewayService;
+
 try {
-  Cashfree = require("cashfree-pg");
-  console.log("✅ Cashfree SDK loaded successfully");
+  const cashfree = require("cashfree-pg");
+  CFPaymentGatewayService = cashfree;
+  
+  // Initialize Configuration for v4
+  cfConfig = {
+    environment: "SANDBOX",
+    version: "2023-08-01",
+    client_id: process.env.CASHFREE_APP_ID,
+    client_secret: process.env.CASHFREE_SECRET_KEY
+  };
+  
+  // Set credentials
+  cashfree.XClientId = process.env.CASHFREE_APP_ID;
+  cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
+  cashfree.XEnvironment = "SANDBOX";
+  
+  console.log("✅ Cashfree SDK loaded and configured");
 } catch (err) {
   console.error("❌ Failed to load Cashfree SDK:", err.message);
 }
 
-// Initialize Cashfree SDK v4.0.10
-if (Cashfree) {
-  Cashfree.XClientId = process.env.CASHFREE_APP_ID;
-  Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-  Cashfree.XEnvironment = "SANDBOX";
-  console.log("✅ Cashfree initialized with credentials");
-}
-
 router.post("/create-order", async (req, res) => {
   try {
-    if (!Cashfree) {
-      console.error("❌ Cashfree SDK not loaded");
-      return res.status(500).json({ error: "Cashfree SDK not initialized" });
+    if (!CFPaymentGatewayService) {
+      return res.status(500).json({ error: "Cashfree SDK not loaded" });
     }
 
     const { amount, customerName, customerEmail, customerPhone, bookingId } = req.body;
@@ -33,14 +41,15 @@ router.post("/create-order", async (req, res) => {
       return res.status(400).json({ error: "Invalid amount or bookingId" });
     }
 
-    const orderRequest = {
+    // Build the Order Request
+    const cfOrderRequest = {
       order_amount: parseFloat(amount),
       order_currency: "INR",
       customer_details: {
         customer_id: `CUST_${bookingId}`,
         customer_name: customerName,
         customer_email: customerEmail,
-        customer_phone: customerPhone,
+        customer_phone: customerPhone
       },
       order_meta: {
         return_url: `https://makeup-artist-website-two.vercel.app/payment?bookingId=${bookingId}`,
@@ -52,36 +61,25 @@ router.post("/create-order", async (req, res) => {
       order_note: "Makeup Booking Payment"
     };
 
-    console.log("🔥 Sending to Cashfree:", JSON.stringify(orderRequest, null, 2));
+    console.log("🔥 Creating Cashfree order:", JSON.stringify(cfOrderRequest, null, 2));
 
-    // Create order with Cashfree v4.0.10
-    let response;
-    try {
-      response = await Cashfree.PGOrderCreate("2023-08-01", orderRequest);
-    } catch (cfError) {
-      console.error("❌ Cashfree PGOrderCreate error:", cfError);
-      throw cfError;
-    }
+    // Call Cashfree to create order
+    const response = await CFPaymentGatewayService.PGOrderCreate("2023-08-01", cfOrderRequest);
 
-    console.log("✅ Cashfree Response received:", JSON.stringify(response, null, 2));
+    console.log("✅ Cashfree response:", JSON.stringify(response, null, 2));
 
-    // Extract order data - handle both v4 response structures
+    // Extract order data
     const orderData = response?.data || response;
 
-    console.log("📦 Order data extracted:", orderData);
-
     if (!orderData?.payment_session_id) {
-      console.error("❌ Missing payment_session_id. Full response:", JSON.stringify(response, null, 2));
+      console.error("❌ Missing payment_session_id in response:", orderData);
       return res.status(500).json({
         error: "Failed to generate payment session",
-        debug: {
-          response: orderData,
-          error: "payment_session_id missing"
-        }
+        debug: orderData
       });
     }
 
-    console.log("✅ Order created successfully. Session ID:", orderData.payment_session_id);
+    console.log("✅ Order created. Session ID:", orderData.payment_session_id);
 
     res.json({
       payment_session_id: orderData.payment_session_id,
@@ -90,9 +88,8 @@ router.post("/create-order", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("❌ Payment creation error (full error):", error);
+    console.error("❌ Payment creation error:", error);
     console.error("Error stack:", error.stack);
-    console.error("Error response:", error.response);
     
     res.status(500).json({
       error: "Payment error",
