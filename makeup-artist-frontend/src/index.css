@@ -1572,6 +1572,544 @@ textarea {
   background: #e8436f;
 }
 
+/* ========================================
+   RESPONSIVE DESIGN - MEDIA QUERIES
+   ======================================== */
+
+/* TABLET (768px to 1024px) */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 0 40px;
+  }
+
+  .hero {
+    padding-left: 40px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .philosophy {
+    padding: 60px 40px;
+    gap: 40px;
+  }
+
+  .portfolio-grid,
+  .services-grid {
+    padding: 40px;
+    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .insta-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 40px;
+  }
+
+  .customize-container {
+    gap: 40px;
+    padding: 40px;
+  }
+
+  .footer {
+    padding: 40px;
+    gap: 40px;
+  }
+
+  .cta {
+    margin: 40px;
+    padding: 50px;
+  }
+
+  .services-header,
+  .portfolio-header,
+  .details-container,
+  .about-hero,
+  .about-journey,
+  .about-testimonials,
+  .about-social {
+    padding: 60px 40px;
+  }
+}
+
+/* MOBILE (up to 768px) */
+@media (max-width: 768px) {
+  /* NAVBAR */
+  .navbar {
+    padding: 0 20px;
+    height: 70px;
+    flex-wrap: wrap;
+  }
+
+  body {
+    padding-top: 70px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  /* HERO */
+  .hero {
+    height: 70vh;
+    padding-left: 20px;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url("https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9") center/cover;
+  }
+
+  .hero-overlay {
+    max-width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    margin: 15px 0;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px 20px;
+  }
+
+  .philosophy-right {
+    flex-direction: column;
+  }
+
+  /* INSTAGRAM GRID */
+  .insta-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 30px 20px;
+  }
+
+  .insta-img {
+    height: 150px;
+  }
+
+  /* CTA */
+  .cta {
+    margin: 30px 20px;
+    padding: 40px 25px;
+    border-radius: 15px;
+  }
+
+  .cta h2 {
+    font-size: 24px;
+  }
+
+  .cta .secondary-btn.dark {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  /* FOOTER */
+  .footer {
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 20px;
+  }
+
+  /* PORTFOLIO */
+  .portfolio-header,
+  .services-header {
+    padding: 50px 20px 30px;
+  }
+
+  .portfolio-header h1,
+  .services-header h1 {
+    font-size: 32px;
+  }
+
+  .portfolio-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 30px 20px;
+  }
+
+  .portfolio-item {
+    height: 250px;
+  }
+
+  .service-card {
+    border-radius: 15px;
+  }
+
+  .service-img {
+    height: 180px;
+  }
+
+  /* CUSTOMIZE */
+  .customize-container {
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 20px;
+  }
+
+  .customize-left {
+    flex: 1;
+  }
+
+  .customize-right {
+    flex: 1;
+    order: -1;
+  }
+
+  .addon-card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .summary-box {
+    padding: 20px;
+    position: sticky;
+    top: 80px;
+  }
+
+  /* FORM */
+  .client-info {
+    padding: 20px;
+    margin-top: 30px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form-group {
+    flex: 1;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 12px 12px;
+    font-size: 16px;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 12px;
+  }
+
+  /* DETAILS PAGE */
+  .details-container {
+    padding: 30px 20px;
+  }
+
+  .details-container h1 {
+    font-size: 28px;
+  }
+
+  .details-card {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .payment-tabs {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .payment-tabs button {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .payment-form input {
+    padding: 12px 12px;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  /* ABOUT PAGE */
+  .about-hero {
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px 20px;
+  }
+
+  .about-image {
+    height: 300px;
+  }
+
+  .about-content h1 {
+    font-size: 32px;
+  }
+
+  .about-badges {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .about-journey {
+    padding: 40px 20px;
+  }
+
+  .about-journey h2 {
+    font-size: 28px;
+  }
+
+  .about-testimonials {
+    padding: 30px 20px;
+    margin: 30px 20px;
+  }
+
+  .about-testimonials h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .testimonial-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    padding: 20px;
+  }
+
+  .social-links {
+    gap: 25px;
+    flex-wrap: wrap;
+  }
+
+  /* SUPPORT SECTION */
+  .support-section {
+    flex-direction: column;
+    margin: 30px 20px;
+    padding: 25px 20px;
+    text-align: center;
+  }
+
+  .support-left {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .support-btn {
+    width: 100%;
+  }
+
+  /* BOOKING SECTION */
+  .booking-section .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .booking-section input[type="date"],
+  .booking-section input[type="time"] {
+    width: 100%;
+  }
+
+  /* BUTTONS */
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  .primary-btn.full {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  /* CALL POPUP */
+  .call-popup-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .call-popup {
+    width: 90%;
+    max-width: 400px;
+    padding: 30px 20px;
+  }
+
+  .whatsapp-call-btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .close-popup {
+    width: 100%;
+    padding: 12px 20px;
+    margin-top: 10px;
+  }
+
+  /* TEXT STYLES */
+  h1 {
+    font-size: 28px !important;
+  }
+
+  h2 {
+    font-size: 24px !important;
+  }
+
+  h3 {
+    font-size: 18px !important;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+/* EXTRA SMALL PHONES (up to 480px) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 15px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .hero {
+    padding-left: 15px;
+    height: 60vh;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .philosophy {
+    padding: 30px 15px;
+  }
+
+  .philosophy-left h2 {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .insta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insta-img {
+    height: 200px;
+  }
+
+  .cta {
+    margin: 20px 15px;
+    padding: 30px 15px;
+  }
+
+  .cta h2 {
+    font-size: 20px;
+  }
+
+  .footer {
+    flex-direction: column;
+    padding: 20px 15px;
+  }
+
+  .portfolio-header h1,
+  .services-header h1,
+  .about-content h1 {
+    font-size: 26px;
+  }
+
+  .customize-container {
+    padding: 20px 15px;
+  }
+
+  .addon-card {
+    padding: 12px;
+  }
+
+  .summary-box {
+    padding: 15px;
+  }
+
+  .client-info {
+    padding: 15px;
+  }
+
+  .details-card {
+    padding: 15px;
+  }
+
+  .about-image {
+    height: 250px;
+  }
+
+  .about-testimonials {
+    margin: 20px 15px;
+    padding: 20px 15px;
+  }
+
+  .testimonial-card {
+    padding: 15px;
+  }
+
+  .support-section {
+    margin: 20px 15px;
+    padding: 20px 15px;
+  }
+
+  .call-popup {
+    width: 95%;
+    padding: 25px 15px;
+  }
+
+  h1 {
+    font-size: 24px !important;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  h3 {
+    font-size: 16px !important;
+  }
+}
+
 
 
 
