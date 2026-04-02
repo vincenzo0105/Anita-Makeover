@@ -1574,6 +1574,11 @@ textarea {
     padding: 0 40px;
   }
 
+  .nav-links {
+    display: flex;
+    gap: 30px;
+  }
+
   .hero {
     padding-left: 40px;
   }
@@ -1639,7 +1644,9 @@ textarea {
   }
 
   .nav-links {
-    display: none;
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
   }
 
   .logo {
@@ -1980,6 +1987,11 @@ textarea {
 
   .logo {
     font-size: 16px;
+  }
+
+  .nav-links {
+    gap: 12px;
+    font-size: 12px;
   }
 
   .hero {
