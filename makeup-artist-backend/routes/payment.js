@@ -1,14 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const Cashfree = require("cashfree-pg");
+
+let Cashfree;
+try {
+  Cashfree = require("cashfree-pg");
+  console.log("✅ Cashfree SDK loaded successfully");
+} catch (err) {
+  console.error("❌ Failed to load Cashfree SDK:", err.message);
+}
 
 // Initialize Cashfree SDK v4.0.10
-Cashfree.XClientId = process.env.CASHFREE_APP_ID;
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = "SANDBOX"; // Use string, not enum
+if (Cashfree) {
+  Cashfree.XClientId = process.env.CASHFREE_APP_ID;
+  Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
+  Cashfree.XEnvironment = "SANDBOX";
+  console.log("✅ Cashfree initialized with credentials");
+}
 
 router.post("/create-order", async (req, res) => {
   try {
+    if (!Cashfree) {
+      console.error("❌ Cashfree SDK not loaded");
+      return res.status(500).json({ error: "Cashfree SDK not initialized" });
+    }
+
     const { amount, customerName, customerEmail, customerPhone, bookingId } = req.body;
 
     console.log("📝 Payment request received:", { amount, customerName, customerEmail, customerPhone, bookingId });
