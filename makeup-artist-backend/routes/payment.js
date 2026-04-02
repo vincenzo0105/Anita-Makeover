@@ -1,52 +1,68 @@
 const express = require("express");
 const router = express.Router();
-const Cashfree = require("cashfree-pg");
+const { Cashfree } = require("cashfree-pg");
 
-// Initialize the SDK configuration
+// ✅ Initialize Cashfree SDK
+if (!process.env.CASHFREE_APP_ID || !process.env.CASHFREE_SECRET_KEY) {
+  console.error("❌ CASHFREE_APP_ID or CASHFREE_SECRET_KEY not set in .env");
+}
+
 Cashfree.XClientId = process.env.CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = "SANDBOX";
+Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
 
 router.post("/create-order", async (req, res) => {
   try {
     const { amount, customerName, customerEmail, customerPhone, bookingId } = req.body;
 
+    // ✅ Validate amount
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ error: "Invalid amount" });
+    }
+
     const orderRequest = {
-      order_amount: amount,
+      order_amount: Math.round(amount),
       order_currency: "INR",
       customer_details: {
-        customer_id: "cust_" + Date.now(),
+        customer_id: "CUST_" + bookingId,
         customer_name: customerName,
         customer_email: customerEmail,
         customer_phone: customerPhone,
       },
       order_meta: {
-        // Ensure this URL is correct for your frontend
-        return_url: "https://makeup-artist-website-two.vercel.app/payment-success?order_id={order_id}",
+        return_url: "https://makeup-artist-website-two.vercel.app/payment?bookingId=" + bookingId,
+        notify_url: "https://makeup-artist-website-two.onrender.com/api/payment/webhook"
       },
       order_tags: {
-        bookingId: bookingId.toString() // Tags usually need to be strings
+        bookingId: bookingId
       },
+      order_note: "Makeup Booking Payment"
     };
 
-    console.log("🔥 Creating Cashfree order...");
+    console.log("🔥 Creating Cashfree order with:", orderRequest);
 
-    // FIX: In the new SDK, use Cashfree.PGOrderCreate
+    // Create order with Cashfree
     const response = await Cashfree.PGOrderCreate("2023-08-01", orderRequest);
 
-    // Log the full response to debug
     console.log("📦 Full Cashfree response:", JSON.stringify(response, null, 2));
 
-    // The data is contained within response.data in the new SDK
-    const orderData = response.data || response;
+    // Extract the actual data
+    const orderData = response?.data || response;
 
-    console.log("✅ Cashfree response success");
-    console.log("📌 Payment Session ID:", orderData.payment_session_id);
+    if (!orderData?.payment_session_id) {
+      console.error("❌ No payment_session_id in response:", orderData);
+      return res.status(400).json({
+        error: "Failed to create payment session",
+        response: orderData
+      });
+    }
+
+    console.log("✅ Payment session created:", orderData.payment_session_id);
 
     res.json({
       payment_session_id: orderData.payment_session_id,
       order_id: orderData.order_id,
-      ...orderData
+      status: orderData.order_status
     });
   } catch (error) {
     // Improved error logging for the new SDK structure

@@ -40,8 +40,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/portfolio", portfolioRoutes);
 app.use("/admin", adminAuthRoutes);
-app.use("/api/payment", paymentRoutes); // ✅ NEW
-app.use("/api/payment", webhookRoutes);
+app.use("/api/payment", paymentRoutes); // Payment order creation
+app.use("/api/payment/webhook", webhookRoutes); // Webhook endpoint
 
 // static
 app.use("/uploads", express.static("uploads"));
