@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Cashfree } = require("cashfree-pg");
+const Cashfree = require("cashfree-pg");
 
 // ✅ Initialize Cashfree SDK
 if (!process.env.CASHFREE_APP_ID || !process.env.CASHFREE_SECRET_KEY) {
