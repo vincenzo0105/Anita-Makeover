@@ -1628,6 +1628,85 @@ textarea {
   .about-social {
     padding: 60px 40px;
   }
+
+  /* Admin panel responsive - tablets */
+  .admin-sidebar {
+    width: 180px;
+    padding: 15px;
+  }
+
+  .admin-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .admin-link {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .admin-main {
+    padding: 30px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .stat-card {
+    padding: 20px;
+    font-size: 13px;
+  }
+
+  .booking-table {
+    font-size: 12px;
+  }
+
+  .booking-table th,
+  .booking-table td {
+    padding: 10px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid textarea {
+    grid-column: span 1;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .add-service-card {
+    padding: 18px;
+  }
+
+  .service-card-admin {
+    padding: 15px;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .portfolio-card img {
+    height: 180px;
+  }
+
+  .services-admin {
+    padding: 25px;
+  }
+
+  .add-btn,
+  .primary-btn,
+  .delete-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
 }
 
 /* MOBILE (up to 768px) */
@@ -2009,6 +2088,176 @@ textarea {
   p {
     font-size: 14px;
   }
+
+  /* Admin panel responsive - mobile tablets */
+  .admin-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: #111;
+  }
+
+  .admin-title {
+    flex: 0 0 100%;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .admin-logo {
+    flex: 0 0 100%;
+    margin-bottom: 15px;
+  }
+
+  .admin-link {
+    flex: 1 1 calc(50% - 8px);
+    margin: 4px;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .admin-main {
+    padding: 20px;
+    flex: 1;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 15px;
+    font-size: 13px;
+  }
+
+  .booking-table {
+    font-size: 11px;
+  }
+
+  .booking-table th,
+  .booking-table td {
+    padding: 8px;
+  }
+
+  .approve-btn,
+  .cancel-btn {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid textarea {
+    grid-column: span 1;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .services-admin {
+    padding: 15px;
+  }
+
+  .add-service-card {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .add-service-card h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .add-service-card input,
+  .add-service-card textarea {
+    font-size: 13px;
+  }
+
+  .service-card-admin {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .service-card-admin h3 {
+    font-size: 14px;
+  }
+
+  .service-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .primary-btn,
+  .delete-btn,
+  .add-btn {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .portfolio-container {
+    padding: 15px;
+  }
+
+  .portfolio-container h1 {
+    font-size: 20px;
+  }
+
+  .upload-box {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .portfolio-card {
+    border-radius: 10px;
+  }
+
+  .portfolio-card img {
+    height: 140px;
+  }
+
+  .logout-btn {
+    width: calc(100% - 30px);
+    margin: 15px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .login-card {
+    width: 90vw;
+    max-width: 320px;
+    padding: 25px 20px;
+  }
+
+  .login-card h2 {
+    font-size: 16px;
+  }
+
+  .login-card input {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .login-card button {
+    font-size: 12px;
+    padding: 8px;
+  }
 }
 
 /* EXTRA SMALL PHONES (up to 480px) */
@@ -2154,6 +2403,160 @@ textarea {
 
   h3 {
     font-size: 16px !important;
+  }
+
+  /* Admin panel responsive */
+  .admin-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: #111;
+  }
+
+  .admin-title {
+    flex: 0 0 100%;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .admin-link {
+    flex: 1 1 calc(50% - 6px);
+    margin: 6px 6px;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .admin-main {
+    padding: 20px 15px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .stat-card {
+    padding: 20px;
+    font-size: 14px;
+  }
+
+  .booking-table {
+    font-size: 12px;
+  }
+
+  .booking-table th,
+  .booking-table td {
+    padding: 8px;
+  }
+
+  .approve-btn,
+  .cancel-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid textarea {
+    grid-column: span 1;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .services-admin {
+    padding: 15px;
+  }
+
+  .add-service-card {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .add-service-card h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .service-card-admin {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .service-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .primary-btn,
+  .delete-btn,
+  .add-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .portfolio-container {
+    padding: 20px 15px;
+  }
+
+  .portfolio-container h1 {
+    font-size: 22px;
+  }
+
+  .upload-box {
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .portfolio-card {
+    border-radius: 12px;
+  }
+
+  .portfolio-card img {
+    height: 150px;
+  }
+
+  .logout-btn {
+    width: calc(100% - 40px);
+    margin: 15px 20px;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .login-card {
+    width: 280px;
+    padding: 30px 20px;
+  }
+
+  .login-card h2 {
+    font-size: 18px;
+  }
+
+  .login-card input {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .login-card button {
+    font-size: 13px;
+    padding: 8px;
   }
 }
 
