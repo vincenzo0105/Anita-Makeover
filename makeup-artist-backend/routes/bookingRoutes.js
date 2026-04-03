@@ -74,7 +74,7 @@ console.log("EMAIL BEING SENT TO:", updated.email);
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    from: "Anita's Makeover omk145593@gmail.com",
+    from: "anita omk145593@gmail.com",
     to: updated.email,
     subject: "Complete Your Booking Payment 💄",
     html: `
