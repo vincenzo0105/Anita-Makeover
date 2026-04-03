@@ -30,6 +30,7 @@ const email = location.state?.email || "";
   const finalAmount = total + serviceFee;
 
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [showPopup, setShowPopup] = useState(false);
   const handleBooking = async () => {
 
   const bookingData = {
@@ -54,7 +55,7 @@ const email = location.state?.email || "";
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(bookingData)
+      
     });
 
     const data = await res.json();
