@@ -2701,3 +2701,21 @@ textarea {
   padding: 30px;
   background: #f6f6f6;
 }
+
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr; /* 🔥 force single column */
+  }
+
+  .form-grid input,
+  .form-grid textarea {
+    width: 100%;
+  }
+}
+
+.form-grid input,
+.form-grid textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+}
