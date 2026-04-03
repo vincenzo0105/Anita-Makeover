@@ -60,10 +60,7 @@ const email = location.state?.email || "";
     const data = await res.json();
     console.log("Saved:", data);
 
-    alert("Booking successful ✅");
-
-    // optional: redirect after booking
-    navigate("/");
+    setShowPopup(true);
   } catch (err) {
     console.error(err);
     alert("Error saving booking ❌");
@@ -181,6 +178,29 @@ const email = location.state?.email || "";
         </div>
 
       </section>
+      {showPopup && (
+  <div className="popup-overlay">
+    <div className="popup-box">
+      <h2>Booking Successful 🎉</h2>
+      <p>
+        Your booking has been placed successfully.
+        <br /><br />
+        Please wait until the makeup artist approves your request.
+        After approval, you will receive an email to complete the payment.
+      </p>
+
+      <button
+        className="primary-btn"
+        onClick={() => {
+          setShowPopup(false);
+          navigate("/");
+        }}
+      >
+        Go to Home
+      </button>
+    </div>
+  </div>
+)}
     </>
   );
 }
