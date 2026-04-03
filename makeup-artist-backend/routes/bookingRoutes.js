@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
   try {
     console.log("BOOKING ROUTE HIT 🚀");
     console.log("Incoming booking:", req.body);
-
+console.log("EMAIL RECEIVED IN BACKEND:", req.body.email);
     const booking = new Booking({
       service: req.body.service,
       addOns: req.body.addOns,
@@ -39,6 +39,7 @@ router.post("/", async (req, res) => {
     });
 
     const saved = await booking.save();
+    console.log("SAVED EMAIL IN DB:", saved.email);
     res.status(201).json(saved);
 
   } catch (err) {
@@ -61,7 +62,7 @@ console.log("Updated booking FULL:", updated);
     // 👉 ADD THIS BLOCK
     if (req.body.status === "Approved") {
       console.log("EMAIL TRIGGERED");
-
+console.log("EMAIL BEING SENT TO:", updated.email);
       // call your payment route or generate link
       const paymentLink = `https://makeup-artist-website-two.vercel.app/payment/${updated._id}`;
 

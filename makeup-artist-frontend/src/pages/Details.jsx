@@ -25,7 +25,7 @@ export default function Details() {
   const city = location.state?.city || "";
   const message = location.state?.message || "";
   const email = location.state?.email || "";
-
+console.log("SENDING EMAIL TO DETAILS:", email);
   const serviceFee = Math.round(total * 0.05);
   const finalAmount = total + serviceFee;
 
@@ -54,7 +54,7 @@ export default function Details() {
       email,
       totalAmount: finalAmount
     };
-
+console.log("EMAIL SENT TO BACKEND:", bookingData.email);
     console.log("FINAL BOOKING DATA:", bookingData);
 
     try {

@@ -43,6 +43,7 @@ export default function Customize() {
 
   // ✅ VALIDATION FUNCTION
   const handleContinue = () => {
+    console.log("FORM EMAIL:", email);
     if (
       !name.trim() ||
       !phone.trim() ||
@@ -69,7 +70,7 @@ export default function Customize() {
       alert("Please enter a valid email address 📧");
       return;
     }
-
+console.log("SENDING EMAIL TO DETAILS:", email);
     navigate("/details", {
       state: {
         serviceName,
