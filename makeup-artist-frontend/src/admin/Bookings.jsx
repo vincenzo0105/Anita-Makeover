@@ -75,7 +75,7 @@ export default function Bookings() {
           Cancelled
         </button>
       </div>
-
+<div className="table-wrapper">
       <table className="booking-table">
 
         <thead>
@@ -134,7 +134,7 @@ export default function Bookings() {
         </tbody>
 
       </table>
-
+</div>
     </div>
   );
 }

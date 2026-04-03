@@ -2563,3 +2563,62 @@ textarea {
 
 
 
+
+
+.admin-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVBAR */
+.admin-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  color: white;
+  padding: 15px 20px;
+  flex-wrap: wrap;
+}
+
+.admin-nav-links {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.admin-link {
+  text-decoration: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.admin-link.active {
+  background: #ff4f81;
+  color: black;
+}
+
+/* MOBILE IMPROVEMENT */
+@media (max-width: 768px) {
+  .admin-navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .admin-nav-links {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .logout-btn {
+    width: 100%;
+  }
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
