@@ -4,14 +4,12 @@ export default function Bookings() {
 
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState("All");
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`)
       .then(res => res.json())
-      .then(data => {
-        console.log("Fetched bookings:", data);
-        setBookings(data);
-      })
+      .then(data => setBookings(data))
       .catch(err => console.log(err));
   }, []);
 
@@ -25,7 +23,6 @@ export default function Bookings() {
         body: JSON.stringify({ status })
       });
 
-      // refresh bookings
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`);
       const data = await res.json();
       setBookings(data);
@@ -35,7 +32,6 @@ export default function Bookings() {
     }
   };
 
-  // ✅ Filter + Sort (newest first)
   const filteredBookings = bookings
     .filter(b => filter === "All" || b.status === filter)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -45,96 +41,153 @@ export default function Bookings() {
 
       <h1>Bookings</h1>
 
-      {/* 🔍 Filter Buttons */}
+      {/* FILTER */}
       <div className="filter-bar">
-        <button
-          className={`filter-btn ${filter === "All" ? "active" : ""}`}
-          onClick={() => setFilter("All")}
-        >
-          All
-        </button>
-
-        <button
-          className={`filter-btn ${filter === "Pending" ? "active" : ""}`}
-          onClick={() => setFilter("Pending")}
-        >
-          Pending
-        </button>
-
-        <button
-          className={`filter-btn ${filter === "Approved" ? "active" : ""}`}
-          onClick={() => setFilter("Approved")}
-        >
-          Approved
-        </button>
-
-        <button
-          className={`filter-btn ${filter === "Cancelled" ? "active" : ""}`}
-          onClick={() => setFilter("Cancelled")}
-        >
-          Cancelled
-        </button>
+        {["All", "Pending", "Approved", "Cancelled"].map((f) => (
+          <button
+            key={f}
+            className={`filter-btn ${filter === f ? "active" : ""}`}
+            onClick={() => setFilter(f)}
+          >
+            {f}
+          </button>
+        ))}
       </div>
-<div className="table-wrapper">
-      <table className="booking-table">
 
-        <thead>
-          <tr>
-            <th>Client</th>
-            <th>Service</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+      {/* TABLE */}
+      <div className="table-wrapper">
+        <table className="booking-table">
 
-        <tbody>
-          {filteredBookings.length === 0 ? (
+          <thead>
             <tr>
-              <td colSpan="8">No bookings found</td>
+              <th>Client</th>
+              <th>Service</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
-          ) : (
-            filteredBookings.map((b) => (
-              <tr key={b._id}>
-                <td>{b.name}</td>
-                <td>{b.service}</td>
-                <td>{b.phone || "-"}</td>
-                <td>{b.email || "-"}</td>
-                <td>{b.date}</td>
-                <td>{b.time}</td>
+          </thead>
 
-                {/* 🎨 Colored Status */}
-                <td className={`status ${b.status?.toLowerCase()}`}>
-                  {b.status || "Pending"}
-                </td>
-
-                <td>
-                  <button
-                    className="approve-btn"
-                    disabled={b.status === "Approved"}
-                    onClick={() => updateStatus(b._id, "Approved")}
-                  >
-                    Approve
-                  </button>
-
-                  <button
-                    className="cancel-btn"
-                    disabled={b.status === "Cancelled"}
-                    onClick={() => updateStatus(b._id, "Cancelled")}
-                  >
-                    Cancel
-                  </button>
-                </td>
+          <tbody>
+            {filteredBookings.length === 0 ? (
+              <tr>
+                <td colSpan="8">No bookings found</td>
               </tr>
-            ))
-          )}
-        </tbody>
+            ) : (
+              filteredBookings.map((b) => (
+                <tr
+                  key={b._id}
+                  onClick={() => setSelectedBooking(b)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <td>{b.name}</td>
+                  <td>{b.service}</td>
+                  <td>{b.phone || "-"}</td>
+                  <td>{b.email || "-"}</td>
+                  <td>{b.date}</td>
+                  <td>{b.time}</td>
 
-      </table>
-</div>
+                  <td className={`status ${b.status?.toLowerCase()}`}>
+                    {b.status || "Pending"}
+                  </td>
+
+                  <td>
+                    <button
+                      className="approve-btn"
+                      disabled={b.status === "Approved"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateStatus(b._id, "Approved");
+                      }}
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      className="cancel-btn"
+                      disabled={b.status === "Cancelled"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateStatus(b._id, "Cancelled");
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+
+        </table>
+      </div>
+
+      {/* MODAL */}
+      {selectedBooking && (
+        <div className="modal-overlay" onClick={() => setSelectedBooking(null)}>
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+
+            <h2>Booking Details</h2>
+
+            <p><strong>Name:</strong> {selectedBooking.name}</p>
+            <p><strong>Service:</strong> {selectedBooking.service}</p>
+
+            {/* ADD-ONS */}
+            <div className="modal-section">
+              <strong>Add-ons:</strong>
+              {selectedBooking.addOns?.length > 0 ? (
+                <ul>
+                  {selectedBooking.addOns.map((addon, i) => (
+                    <li key={i}>{addon}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No add-ons</p>
+              )}
+            </div>
+
+            <p><strong>Phone:</strong> {selectedBooking.phone}</p>
+
+            {/* CALL BUTTON */}
+            {selectedBooking.phone && (
+              <a
+                href={`tel:${selectedBooking.phone}`}
+                className="call-btn"
+                onClick={(e) => e.stopPropagation()}
+              >
+                📞 Call Client
+              </a>
+            )}
+
+            <p><strong>Email:</strong> {selectedBooking.email}</p>
+
+            {/* ADDRESS */}
+            <p><strong>Address:</strong> {selectedBooking.address || "-"}</p>
+            <p><strong>City:</strong> {selectedBooking.city || "-"}</p>
+
+            <p><strong>Date:</strong> {selectedBooking.date}</p>
+            <p><strong>Time:</strong> {selectedBooking.time}</p>
+
+            <p className="modal-total">
+              <strong>Total Amount:</strong> ₹{selectedBooking.totalAmount}
+            </p>
+
+            <p><strong>Status:</strong> {selectedBooking.status}</p>
+
+            <button
+              className="close-btn"
+              onClick={() => setSelectedBooking(null)}
+            >
+              Close
+            </button>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
