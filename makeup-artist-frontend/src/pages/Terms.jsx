@@ -1,4 +1,4 @@
-import "../styles/policy.css";
+
 
 export default function Terms() {
   return (
