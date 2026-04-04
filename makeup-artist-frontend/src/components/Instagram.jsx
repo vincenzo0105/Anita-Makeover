@@ -1,5 +1,5 @@
 import insta1 from "../assets/insta1.png";
-import insta2 from "../assets/make2.jpeg";
+import insta2 from "../assets/logo.png";
 import insta3 from "../assets/insta3a.png";
 import insta4 from "../assets/insta4a.png";
 
