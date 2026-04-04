@@ -20,10 +20,9 @@ export default function Dashboard() {
     b => new Date(b.date) > new Date()
   );
 
-  const totalRevenue = bookings.reduce(
-    (sum, b) => sum + (b.totalAmount || 0),
-    0
-  );
+  const totalRevenue = bookings
+  .filter(b => b.status === "Approved")
+  .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
 
   return (
     <div>
