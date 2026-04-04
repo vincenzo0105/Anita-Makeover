@@ -29,7 +29,9 @@ function App() {
         <Route path="/customize" element={<Customize />} />
         <Route path="/details" element={<Details />} />
         <Route path="/about" element={<About />} />
-
+<Route path="/terms" element={<Terms />} />
+<Route path="/refund-policy" element={<RefundPolicy />} />
+<Route path="/contact" element={<Contact />} />
         {/* ✅ NEW PAYMENT ROUTE */}
         <Route path="/payment/:id" element={<PaymentPage />} />
 
