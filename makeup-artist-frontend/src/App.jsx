@@ -17,6 +17,10 @@ import ServicesManager from "./admin/ServicesManager";
 import PortfolioManager from "./admin/PortfolioManager";
 import BookingsCalendar from "./admin/BookingsCalendar";
 
+import Terms from "./pages/Terms";
+import RefundPolicy from "./pages/RefundPolicy";
+import Contact from "./pages/Contact";
+
 function App() {
   return (
     <BrowserRouter>
