@@ -2829,3 +2829,149 @@ textarea {
     font-size: 1.5rem;
   }
 }
+
+
+
+/* Main container */
+.contact-container {
+  max-width: 700px;
+  margin: 80px auto;
+  padding: 20px;
+  text-align: center;
+  color: #2c2c2c;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.contact-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+/* Contact box */
+.contact-card {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Text */
+.contact-card p {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #444;
+}
+
+/* Highlight labels */
+.contact-card strong {
+  color: #111;
+}
+
+/* Hover effect (optional subtle touch) */
+.contact-card:hover {
+  transform: translateY(-2px);
+  transition: 0.3s ease;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .contact-container {
+    margin: 50px 15px;
+  }
+
+  .contact-container h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .contact-container {
+    margin: 40px 10px;
+  }
+
+  .contact-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .contact-card {
+    padding: 20px;
+  }
+
+  .contact-card p {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Main container */
+.refund-container {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 20px;
+  color: #2c2c2c;
+  line-height: 1.7;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.refund-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+/* Paragraph */
+.refund-container p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+/* Highlight box */
+.refund-box {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Divider */
+.refund-divider {
+  height: 1px;
+  background: #e5e5e5;
+  margin: 25px 0;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .refund-container {
+    margin: 50px 15px;
+  }
+
+  .refund-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .refund-container p {
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .refund-container {
+    margin: 40px 10px;
+  }
+
+  .refund-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .refund-box {
+    padding: 15px;
+  }
+}

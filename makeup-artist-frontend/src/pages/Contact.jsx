@@ -1,9 +1,15 @@
+
+
 export default function Contact() {
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="contact-container">
       <h1>Contact Us</h1>
-      <p>Email: your@email.com</p>
-      <p>Phone: 9876543210</p>
+
+      <div className="contact-card">
+        <p><strong>Email:</strong> omk145593@email.com</p>
+        <p><strong>Phone:</strong> +91 8369394088</p>
+        <p><strong>Location:</strong> Kalyan West</p>
+      </div>
     </div>
   );
 }
