@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 
@@ -6,7 +6,6 @@ export default function Details() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Redirect if opened directly
   useEffect(() => {
     if (!location.state) {
       navigate("/services");
@@ -25,16 +24,21 @@ export default function Details() {
   const city = location.state?.city || "";
   const message = location.state?.message || "";
   const email = location.state?.email || "";
-console.log("SENDING EMAIL TO DETAILS:", email);
+
   const serviceFee = Math.round(total * 0.05);
   const finalAmount = total + serviceFee;
 
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [showPopup, setShowPopup] = useState(false);
+  const [agreed, setAgreed] = useState(false); // ✅ NEW
 
   const handleBooking = async () => {
 
-    // Prevent invalid booking
+    if (!agreed) {
+      alert("Please agree to Terms & Conditions and Refund Policy");
+      return;
+    }
+
     if (!serviceName) {
       alert("Please select a service again.");
       navigate("/services");
@@ -54,8 +58,6 @@ console.log("SENDING EMAIL TO DETAILS:", email);
       email,
       totalAmount: finalAmount
     };
-console.log("EMAIL SENT TO BACKEND:", bookingData.email);
-    console.log("FINAL BOOKING DATA:", bookingData);
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`, {
@@ -63,7 +65,7 @@ console.log("EMAIL SENT TO BACKEND:", bookingData.email);
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(bookingData) // ✅ IMPORTANT
+        body: JSON.stringify(bookingData)
       });
 
       const data = await res.json();
@@ -73,9 +75,7 @@ console.log("EMAIL SENT TO BACKEND:", bookingData.email);
         return;
       }
 
-      console.log("Saved:", data);
-
-      setShowPopup(true); // ✅ only on success
+      setShowPopup(true);
 
     } catch (err) {
       console.error(err);
@@ -186,6 +186,21 @@ console.log("EMAIL SENT TO BACKEND:", bookingData.email);
             <p>Pay at the time of appointment.</p>
           )}
 
+          {/* ✅ AGREEMENT CHECKBOX */}
+          <div className="terms-checkbox">
+            <input
+              type="checkbox"
+              id="agree"
+              checked={agreed}
+              onChange={(e) => setAgreed(e.target.checked)}
+            />
+            <label htmlFor="agree">
+              I agree to the{" "}
+              <Link to="/terms">Terms & Conditions</Link> and{" "}
+              <Link to="/refund-policy">Refund Policy</Link>
+            </label>
+          </div>
+
           <button className="primary-btn full" onClick={handleBooking}>
             Complete Booking →
           </button>
@@ -193,7 +208,7 @@ console.log("EMAIL SENT TO BACKEND:", bookingData.email);
 
       </section>
 
-      {/* ✅ POPUP */}
+      {/* POPUP */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">

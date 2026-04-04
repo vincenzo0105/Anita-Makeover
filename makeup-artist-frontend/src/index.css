@@ -2975,3 +2975,37 @@ textarea {
     padding: 15px;
   }
 }
+
+
+
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 15px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.terms-checkbox input {
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.terms-checkbox a {
+  color: #7c3aed;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.terms-checkbox a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .terms-checkbox {
+    font-size: 13px;
+  }
+}
