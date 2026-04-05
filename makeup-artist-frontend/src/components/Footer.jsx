@@ -16,6 +16,7 @@ export default function Footer() {
       <div>
         <p>Kalyan West</p>
         <p>+91 8369394088</p>
+        <p>anitakumavat24@gmail.com</p>
       </div>
 
       {/* 👇 NEW LINKS SECTION */}
