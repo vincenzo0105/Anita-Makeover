@@ -3194,7 +3194,7 @@ textarea {
 
 .insta-img {
   width: 100%;
-  height: 220px; /* controls box height */
+  height: 220px;
   overflow: hidden;
   border-radius: 16px;
 }
@@ -3202,6 +3202,19 @@ textarea {
 .insta-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* THIS is the key */
+  object-fit: cover;
   display: block;
+}
+
+.insta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* 📱 Mobile view */
+@media (max-width: 768px) {
+  .insta-grid {
+    grid-template-columns: 1fr; /* single column */
+  }
 }
