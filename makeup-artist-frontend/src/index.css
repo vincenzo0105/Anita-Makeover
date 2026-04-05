@@ -3187,3 +3187,38 @@ textarea {
   background: #25D366;
   color: white;
 }
+
+
+
+
+
+.instagram {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.insta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.insta-img {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* keeps square shape */
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.insta-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.insta-img img:hover {
+  transform: scale(1.05);
+}
