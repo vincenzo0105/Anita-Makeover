@@ -3194,15 +3194,14 @@ textarea {
 
 .insta-img {
   width: 100%;
-  height: 220px; /* controls box height */
+  max-width: 100%;
   overflow: hidden;
-  border-radius: 16px;
 }
 
 .insta-img img {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* THIS is the key */
+  height: auto;
   display: block;
+  object-fit: cover;
 }
 
