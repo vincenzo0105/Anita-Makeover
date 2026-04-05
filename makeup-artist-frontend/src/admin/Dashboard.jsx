@@ -21,7 +21,7 @@ export default function Dashboard() {
   );
 
   const totalRevenue = bookings
-  .filter(b => b.status === "Approved")
+  .filter(b => b.status === "Paid")
   .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
 
   return (
