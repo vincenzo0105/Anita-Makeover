@@ -28,9 +28,8 @@ export default function Details() {
   const serviceFee = Math.round(total * 0.05);
   const finalAmount = total + serviceFee;
 
-  const [paymentMethod, setPaymentMethod] = useState("card");
   const [showPopup, setShowPopup] = useState(false);
-  const [agreed, setAgreed] = useState(false); // ✅ NEW
+  const [agreed, setAgreed] = useState(false);
 
   const handleBooking = async () => {
 
@@ -138,55 +137,10 @@ export default function Details() {
           </div>
         </div>
 
-        {/* PAYMENT SECTION */}
+        {/* ✅ FINAL ACTION SECTION */}
         <div className="details-card">
-          <h3>Payment Method</h3>
 
-          <div className="payment-tabs">
-            <button
-              className={paymentMethod === "card" ? "active" : ""}
-              onClick={() => setPaymentMethod("card")}
-            >
-              Card
-            </button>
-
-            <button
-              className={paymentMethod === "upi" ? "active" : ""}
-              onClick={() => setPaymentMethod("upi")}
-            >
-              UPI
-            </button>
-
-            <button
-              className={paymentMethod === "cash" ? "active" : ""}
-              onClick={() => setPaymentMethod("cash")}
-            >
-              Cash
-            </button>
-          </div>
-
-          {paymentMethod === "card" && (
-            <div className="payment-form">
-              <input placeholder="Cardholder Name" />
-              <input placeholder="Card Number" />
-              <div className="form-row">
-                <input placeholder="MM/YY" />
-                <input placeholder="CVC" />
-              </div>
-            </div>
-          )}
-
-          {paymentMethod === "upi" && (
-            <div className="payment-form">
-              <input placeholder="Enter UPI ID" />
-            </div>
-          )}
-
-          {paymentMethod === "cash" && (
-            <p>Pay at the time of appointment.</p>
-          )}
-
-          {/* ✅ AGREEMENT CHECKBOX */}
+          {/* CHECKBOX */}
           <div className="terms-checkbox">
             <input
               type="checkbox"
@@ -201,9 +155,11 @@ export default function Details() {
             </label>
           </div>
 
+          {/* BUTTON */}
           <button className="primary-btn full" onClick={handleBooking}>
             Complete Booking →
           </button>
+
         </div>
 
       </section>
@@ -217,7 +173,7 @@ export default function Details() {
               Your booking has been placed successfully.
               <br /><br />
               Please wait until the makeup artist approves your request.
-              After approval, you will receive an email to complete the payment.
+              After approval, you will receive payment details via WhatsApp.
             </p>
 
             <button

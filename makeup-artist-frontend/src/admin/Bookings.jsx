@@ -46,7 +46,7 @@ Your booking for ${booking.service} is confirmed! 🎉
 💰 Amount: ₹${booking.totalAmount}
 
 Please complete your payment:
-https://your-payment-link.com
+upi://pay?pa=omk145593@okaxis&pn=om%20kumavat&aid=uGICAgMCMwYSDawm
 
 Thank you 💄`;
 
