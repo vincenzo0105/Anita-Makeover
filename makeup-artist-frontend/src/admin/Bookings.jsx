@@ -46,7 +46,7 @@ Your booking for ${booking.service} is confirmed! 🎉
 💰 Amount: ₹${booking.totalAmount}
 
 Please complete your payment:
-upi://pay?pa=omk145593@okaxis&pn=om%20kumavat&aid=uGICAgMCMwYSDawm
+UPI ID: omk145593@okaxis
 
 Thank you 💄`;
 
