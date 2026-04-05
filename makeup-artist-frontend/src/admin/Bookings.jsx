@@ -32,9 +32,9 @@ export default function Bookings() {
     }
   };
 
-  // ✅ WHATSAPP FUNCTION
-  const sendWhatsApp = (booking) => {
-    const phone = booking.phone?.replace(/\D/g, ""); // clean number
+  // ✅ WHATSAPP APPROVAL
+  const sendApprovalWhatsApp = (booking) => {
+    const phone = booking.phone?.replace(/\D/g, "");
 
     const message = `Hi ${booking.name},
 
@@ -45,8 +45,26 @@ Your booking for ${booking.service} is confirmed! 🎉
 
 💰 Amount: ₹${booking.totalAmount}
 
-Please complete your payment using the link below:
-upi://pay?pa=omk145593@okaxis&pn=om%20kumavat&aid=uGICAgMCMwYSDaw
+Please complete your payment:
+https://your-payment-link.com
+
+Thank you 💄`;
+
+    window.open(
+      `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
+
+  // ❌ WHATSAPP REJECT
+  const sendRejectWhatsApp = (booking) => {
+    const phone = booking.phone?.replace(/\D/g, "");
+
+    const message = `Hi ${booking.name},
+
+We regret to inform you that your booking for ${booking.service} on ${booking.date} at ${booking.time} could not be confirmed.
+
+Please try another slot.
 
 Thank you 💄`;
 
@@ -67,7 +85,7 @@ Thank you 💄`;
 
       {/* FILTER */}
       <div className="filter-bar">
-        {["All", "Pending", "Approved", "Cancelled"].map((f) => (
+        {["All", "Pending", "Approved", "Cancelled", "Paid"].map((f) => (
           <button
             key={f}
             className={`filter-btn ${filter === f ? "active" : ""}`}
@@ -119,28 +137,44 @@ Thank you 💄`;
                   </td>
 
                   <td>
+
+                    {/* APPROVE */}
                     <button
                       className="approve-btn"
-                      disabled={b.status === "Approved"}
+                      disabled={b.status === "Approved" || b.status === "Paid"}
                       onClick={(e) => {
                         e.stopPropagation();
                         updateStatus(b._id, "Approved");
-                        sendWhatsApp(b); // ✅ SEND WHATSAPP
+                        sendApprovalWhatsApp(b);
                       }}
                     >
                       Approve
                     </button>
 
+                    {/* CANCEL */}
                     <button
                       className="cancel-btn"
                       disabled={b.status === "Cancelled"}
                       onClick={(e) => {
                         e.stopPropagation();
                         updateStatus(b._id, "Cancelled");
+                        sendRejectWhatsApp(b);
                       }}
                     >
                       Cancel
                     </button>
+
+                    {/* MARK AS PAID */}
+                    {b.status === "Approved" && (
+                      <label className="switch" onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="checkbox"
+                          onChange={() => updateStatus(b._id, "Paid")}
+                        />
+                        <span className="slider"></span>
+                      </label>
+                    )}
+
                   </td>
                 </tr>
               ))
@@ -175,6 +209,7 @@ Thank you 💄`;
 
             <p><strong>Phone:</strong> {selectedBooking.phone}</p>
 
+            {/* CALL */}
             {selectedBooking.phone && (
               <a
                 href={`tel:${selectedBooking.phone}`}
@@ -185,8 +220,20 @@ Thank you 💄`;
               </a>
             )}
 
-            <p><strong>Email:</strong> {selectedBooking.email}</p>
+            {/* WHATSAPP */}
+            {selectedBooking.phone && (
+              <button
+                className="whatsapp-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  sendApprovalWhatsApp(selectedBooking);
+                }}
+              >
+                💬 Send WhatsApp
+              </button>
+            )}
 
+            <p><strong>Email:</strong> {selectedBooking.email}</p>
             <p><strong>Address:</strong> {selectedBooking.address || "-"}</p>
             <p><strong>City:</strong> {selectedBooking.city || "-"}</p>
 
@@ -198,6 +245,23 @@ Thank you 💄`;
             </p>
 
             <p><strong>Status:</strong> {selectedBooking.status}</p>
+
+            {/* MODAL PAID TOGGLE */}
+            {selectedBooking.status === "Approved" && (
+              <div style={{ marginTop: "10px" }}>
+                <strong>Mark as Paid:</strong>
+                <label className="switch" style={{ marginLeft: "10px" }}>
+                  <input
+                    type="checkbox"
+                    onChange={() => {
+                      updateStatus(selectedBooking._id, "Paid");
+                      setSelectedBooking({ ...selectedBooking, status: "Paid" });
+                    }}
+                  />
+                  <span className="slider"></span>
+                </label>
+              </div>
+            )}
 
             <button
               className="close-btn"
