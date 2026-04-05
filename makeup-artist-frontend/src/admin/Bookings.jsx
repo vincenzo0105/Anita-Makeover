@@ -32,6 +32,30 @@ export default function Bookings() {
     }
   };
 
+  // ✅ WHATSAPP FUNCTION
+  const sendWhatsApp = (booking) => {
+    const phone = booking.phone?.replace(/\D/g, ""); // clean number
+
+    const message = `Hi ${booking.name},
+
+Your booking for ${booking.service} is confirmed! 🎉
+
+📅 Date: ${booking.date}
+⏰ Time: ${booking.time}
+
+💰 Amount: ₹${booking.totalAmount}
+
+Please complete your payment using the link below:
+upi://pay?pa=omk145593@okaxis&pn=om%20kumavat&aid=uGICAgMCMwYSDaw
+
+Thank you 💄`;
+
+    window.open(
+      `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
+
   const filteredBookings = bookings
     .filter(b => filter === "All" || b.status === filter)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -101,6 +125,7 @@ export default function Bookings() {
                       onClick={(e) => {
                         e.stopPropagation();
                         updateStatus(b._id, "Approved");
+                        sendWhatsApp(b); // ✅ SEND WHATSAPP
                       }}
                     >
                       Approve
@@ -135,7 +160,6 @@ export default function Bookings() {
             <p><strong>Name:</strong> {selectedBooking.name}</p>
             <p><strong>Service:</strong> {selectedBooking.service}</p>
 
-            {/* ADD-ONS */}
             <div className="modal-section">
               <strong>Add-ons:</strong>
               {selectedBooking.addOns?.length > 0 ? (
@@ -151,7 +175,6 @@ export default function Bookings() {
 
             <p><strong>Phone:</strong> {selectedBooking.phone}</p>
 
-            {/* CALL BUTTON */}
             {selectedBooking.phone && (
               <a
                 href={`tel:${selectedBooking.phone}`}
@@ -164,7 +187,6 @@ export default function Bookings() {
 
             <p><strong>Email:</strong> {selectedBooking.email}</p>
 
-            {/* ADDRESS */}
             <p><strong>Address:</strong> {selectedBooking.address || "-"}</p>
             <p><strong>City:</strong> {selectedBooking.city || "-"}</p>
 
