@@ -45,7 +45,7 @@ Your booking for ${booking.service} is confirmed! 🎉
 
 💰 Amount: ₹${booking.totalAmount}
 
-Please complete your payment:
+Please pay using any UPI app (Google Pay / PhonePe / Paytm):
 UPI ID: omk145593@okaxis
 
 Thank you 💄`;
