@@ -32,7 +32,7 @@ export default function Bookings() {
     }
   };
 
-  // ✅ WHATSAPP APPROVAL
+  // ✅ APPROVAL MESSAGE
   const sendApprovalWhatsApp = (booking) => {
     const phone = booking.phone?.replace(/\D/g, "");
 
@@ -47,18 +47,18 @@ Your booking for ${booking.service} is confirmed! 🎉
 
 You can complete your payment via WhatsApp Pay.
 
-If you are unable to complete payment via WhatsApp Pay, please copy the UPI ID below and pay using any UPI app (Google Pay, PhonePe, Paytm, etc.):
+If you are unable to complete payment via WhatsApp Pay, please copy the UPI ID below and pay using any UPI app:
+
 UPI ID: omk145593@okaxis
+
+After payment, please share the screenshot here.
 
 Thank you 💄`;
 
-    window.open(
-      `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
+    window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
-  // ❌ WHATSAPP REJECT
+  // ❌ REJECT MESSAGE
   const sendRejectWhatsApp = (booking) => {
     const phone = booking.phone?.replace(/\D/g, "");
 
@@ -70,10 +70,27 @@ Please try another slot.
 
 Thank you 💄`;
 
-    window.open(
-      `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
+    window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, "_blank");
+  };
+
+  // 💰 PAYMENT RECEIVED MESSAGE
+  const sendPaidWhatsApp = (booking) => {
+    const phone = booking.phone?.replace(/\D/g, "");
+
+    const message = `Hi ${booking.name},
+
+Your payment has been received successfully ✅
+
+Your booking for ${booking.service} is now confirmed 🎉
+
+📅 Date: ${booking.date}
+⏰ Time: ${booking.time}
+
+We look forward to serving you 💄
+
+Thank you!`;
+
+    window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   const filteredBookings = bookings
@@ -171,7 +188,11 @@ Thank you 💄`;
                       <label className="switch" onClick={(e) => e.stopPropagation()}>
                         <input
                           type="checkbox"
-                          onChange={() => updateStatus(b._id, "Paid")}
+                          checked={b.status === "Paid"}
+                          onChange={() => {
+                            updateStatus(b._id, "Paid");
+                            sendPaidWhatsApp(b);
+                          }}
                         />
                         <span className="slider"></span>
                       </label>
@@ -211,29 +232,26 @@ Thank you 💄`;
 
             <p><strong>Phone:</strong> {selectedBooking.phone}</p>
 
-           <div className="action-buttons">
-  {selectedBooking.phone && (
-    <a
-      href={`tel:${selectedBooking.phone}`}
-      className="call-btn"
-      onClick={(e) => e.stopPropagation()}
-    >
-      📞 Call Client
-    </a>
-  )}
+            <div className="action-buttons">
+              <a
+                href={`tel:${selectedBooking.phone}`}
+                className="call-btn"
+                onClick={(e) => e.stopPropagation()}
+              >
+                📞 Call Client
+              </a>
 
-  {selectedBooking.phone && (
-    <button
-      className="whatsapp-btn"
-      onClick={(e) => {
-        e.stopPropagation();
-        sendApprovalWhatsApp(selectedBooking);
-      }}
-    >
-      💬 Send WhatsApp
-    </button>
-  )}
-</div>
+              <button
+                className="whatsapp-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  sendApprovalWhatsApp(selectedBooking);
+                }}
+              >
+                💬 Send WhatsApp
+              </button>
+            </div>
+
             <p><strong>Email:</strong> {selectedBooking.email}</p>
             <p><strong>Address:</strong> {selectedBooking.address || "-"}</p>
             <p><strong>City:</strong> {selectedBooking.city || "-"}</p>
@@ -247,16 +265,22 @@ Thank you 💄`;
 
             <p><strong>Status:</strong> {selectedBooking.status}</p>
 
-            {/* MODAL PAID TOGGLE */}
+            {/* MODAL PAID */}
             {selectedBooking.status === "Approved" && (
               <div style={{ marginTop: "10px" }}>
                 <strong>Mark as Paid:</strong>
                 <label className="switch" style={{ marginLeft: "10px" }}>
                   <input
                     type="checkbox"
+                    checked={selectedBooking.status === "Paid"}
                     onChange={() => {
                       updateStatus(selectedBooking._id, "Paid");
-                      setSelectedBooking({ ...selectedBooking, status: "Paid" });
+                      sendPaidWhatsApp(selectedBooking);
+
+                      setSelectedBooking({
+                        ...selectedBooking,
+                        status: "Paid"
+                      });
                     }}
                   />
                   <span className="slider"></span>
