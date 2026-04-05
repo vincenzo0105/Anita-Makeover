@@ -3157,3 +3157,33 @@ textarea {
 .switch input:checked + .slider:before {
   transform: translateX(20px);
 }
+
+
+.action-buttons {
+  display: flex;
+  gap: 12px;            /* spacing between buttons */
+  margin: 15px 0;
+  flex-wrap: wrap;      /* mobile safe */
+}
+
+.call-btn,
+.whatsapp-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Call */
+.call-btn {
+  background: #6b9f7a;
+  color: white;
+}
+
+/* WhatsApp */
+.whatsapp-btn {
+  background: #25D366;
+  color: white;
+}

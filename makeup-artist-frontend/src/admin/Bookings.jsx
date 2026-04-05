@@ -209,30 +209,29 @@ Thank you 💄`;
 
             <p><strong>Phone:</strong> {selectedBooking.phone}</p>
 
-            {/* CALL */}
-            {selectedBooking.phone && (
-              <a
-                href={`tel:${selectedBooking.phone}`}
-                className="call-btn"
-                onClick={(e) => e.stopPropagation()}
-              >
-                📞 Call Client
-              </a>
-            )}
+           <div className="action-buttons">
+  {selectedBooking.phone && (
+    <a
+      href={`tel:${selectedBooking.phone}`}
+      className="call-btn"
+      onClick={(e) => e.stopPropagation()}
+    >
+      📞 Call Client
+    </a>
+  )}
 
-            {/* WHATSAPP */}
-            {selectedBooking.phone && (
-              <button
-                className="whatsapp-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  sendApprovalWhatsApp(selectedBooking);
-                }}
-              >
-                💬 Send WhatsApp
-              </button>
-            )}
-
+  {selectedBooking.phone && (
+    <button
+      className="whatsapp-btn"
+      onClick={(e) => {
+        e.stopPropagation();
+        sendApprovalWhatsApp(selectedBooking);
+      }}
+    >
+      💬 Send WhatsApp
+    </button>
+  )}
+</div>
             <p><strong>Email:</strong> {selectedBooking.email}</p>
             <p><strong>Address:</strong> {selectedBooking.address || "-"}</p>
             <p><strong>City:</strong> {selectedBooking.city || "-"}</p>
