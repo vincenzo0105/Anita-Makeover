@@ -51,7 +51,7 @@ If you are unable to complete payment via WhatsApp Pay, please copy the UPI ID b
 
 UPI ID: omk145593@okaxis
 
-After payment, please share the screenshot here.
+After payment, please fill out this google form to confirm your payment: https://docs.google.com/forms/d/e/1FAIpQLSczwiDs41nSSPoW3Vlj-o7tSrSTKa3kHAUbi5ujBcsfwua4eg/viewform?usp=dialog
 
 Thank you 💄`;
 
