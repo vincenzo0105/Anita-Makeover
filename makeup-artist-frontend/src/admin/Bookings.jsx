@@ -45,7 +45,9 @@ Your booking for ${booking.service} is confirmed! 🎉
 
 💰 Amount: ₹${booking.totalAmount}
 
-Please pay using any UPI app (Google Pay / PhonePe / Paytm):
+You can complete your payment via WhatsApp Pay.
+
+If you are unable to complete payment via WhatsApp Pay, please copy the UPI ID below and pay using any UPI app (Google Pay, PhonePe, Paytm, etc.):
 UPI ID: omk145593@okaxis
 
 Thank you 💄`;
