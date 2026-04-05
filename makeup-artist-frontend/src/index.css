@@ -3212,9 +3212,3 @@ textarea {
   gap: 12px;
 }
 
-/* 📱 Mobile view */
-@media (max-width: 768px) {
-  .insta-grid {
-    grid-template-columns: 1fr; /* single column */
-  }
-}
