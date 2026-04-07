@@ -93,6 +93,13 @@ Thank you!`;
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
+const openMap = (booking) => {
+  const address = `${booking.address || ""}, ${booking.city || ""}`;
+  const encoded = encodeURIComponent(address);
+  window.open(`https://www.google.com/maps/search/?api=1&query=${encoded}`, "_blank");
+};
+
+
   const filteredBookings = bookings
     .filter(b => filter === "All" || b.status === filter)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -254,7 +261,21 @@ Thank you!`;
 
             <p><strong>Email:</strong> {selectedBooking.email}</p>
             <p><strong>Address:</strong> {selectedBooking.address || "-"}</p>
-            <p><strong>City:</strong> {selectedBooking.city || "-"}</p>
+<p><strong>City:</strong> {selectedBooking.city || "-"}</p>
+
+{/* 📍 GOOGLE MAP BUTTON */}
+{selectedBooking.address && (
+  <button
+    className="map-btn"
+    onClick={(e) => {
+      e.stopPropagation();
+      openMap(selectedBooking);
+    }}
+    style={{ marginTop: "8px" }}
+  >
+    📍 View on Map
+  </button>
+)}
 
             <p><strong>Date:</strong> {selectedBooking.date}</p>
             <p><strong>Time:</strong> {selectedBooking.time}</p>
