@@ -74,11 +74,16 @@ export default function Services() {
               
               {/* 🖼 Image */}
               <div className="service-img">
-               <img
-  src={getImageUrl(service.image)}
-  alt={service.name}
-  className="w-full h-64 object-cover rounded-lg"
-/>
+              {service.image && (
+  <div>
+    <label className="font-medium">Current Image</label>
+    <img
+      src={getImageUrl(service.image)}
+      alt="Current Service"
+      className="w-40 h-40 object-cover rounded-lg border mt-2"
+    />
+  </div>
+)}
               </div>
 
               {/* 📦 Content */}
