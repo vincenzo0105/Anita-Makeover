@@ -20,16 +20,16 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 
-// CREATE service
+// ✅ CREATE Service
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     const newService = new Service({
       ...req.body,
-      image: req.file.path, // Cloudinary URL
+      image: req.file ? req.file.path : ""
     });
 
     const saved = await newService.save();
-    res.json(saved);
+    res.status(201).json(saved);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -47,13 +47,29 @@ router.get("/", async (req, res) => {
 });
 
 
-// UPDATE service
+// ✅ UPDATE Service
 router.put("/:id", upload.single("image"), async (req, res) => {
   try {
-    const updateData = { ...req.body };
+    const existingService = await Service.findById(req.params.id);
 
+    const updateData = {
+      ...req.body
+    };
+
+    // If a new image is uploaded
     if (req.file) {
-      updateData.image = req.file.path; // Cloudinary URL
+      updateData.image = req.file.path;
+
+      // Delete old image from Cloudinary
+      if (existingService && existingService.image) {
+        const publicId = existingService.image
+          .split("/")
+          .slice(-2)
+          .join("/")
+          .split(".")[0];
+
+        await cloudinary.uploader.destroy(publicId);
+      }
     }
 
     const updated = await Service.findByIdAndUpdate(
@@ -67,8 +83,6 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-
 
 
 // ✅ DELETE Service
