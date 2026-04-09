@@ -76,7 +76,7 @@ export default function Services() {
               <div className="service-img">
               {service.image && (
   <div>
-    <label className="font-medium">Current Image</label>
+    
     <img
       src={getImageUrl(service.image)}
       alt="Current Service"
