@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import getImageUrl from "../utils/getImageUrl";
 export default function Portfolio() {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
@@ -29,10 +29,11 @@ export default function Portfolio() {
       <div className="portfolio-grid">
         {images.map((item) => (
           <div key={item._id} className="portfolio-item">
-            <img
-              src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${item.image}`}
-              alt="Makeup work"
-            />
+           <img
+  src={getImageUrl(item.image)}
+  alt="Portfolio"
+  className="w-full h-64 object-cover rounded-lg"
+/>
           </div>
         ))}
       </div>

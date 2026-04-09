@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
+import getImageUrl from "../utils/getImageUrl";
 export default function Services() {
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
@@ -74,14 +74,11 @@ export default function Services() {
               
               {/* 🖼 Image */}
               <div className="service-img">
-                <img
-                  src={
-                    service.image
-                      ? `${import.meta.env.VITE_API_BASE_URL}/uploads/${service.image}`
-                      : "/placeholder.jpg"
-                  }
-                  alt={service.name}
-                />
+               <img
+  src={getImageUrl(service.image)}
+  alt={service.name}
+  className="w-full h-64 object-cover rounded-lg"
+/>
               </div>
 
               {/* 📦 Content */}
