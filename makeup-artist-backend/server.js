@@ -17,7 +17,9 @@ const webhookRoutes = require("./routes/paymentWebhook");
 // ✅ FIRST: middleware
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://makeup-artist-website-two.vercel.app"
+  "https://makeup-artist-website-two.vercel.app",
+  "https://anitasmakeover.in",
+  "https://www.anitasmakeover.in"
 ];
 
 app.use(cors({
