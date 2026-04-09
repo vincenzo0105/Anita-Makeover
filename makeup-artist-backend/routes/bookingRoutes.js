@@ -94,13 +94,11 @@ router.put("/:id", async (req, res) => {
             <tr><td><strong>Total Amount:</strong></td><td>₹${updated.totalAmount}</td></tr>
           </table>
 
-          <p>Please complete your payment using the link below:</p>
+          <p>Please complete your payment on the UPI ID below:</p>
 
-          <a href="${paymentLink}"
-            style="display: inline-block; padding: 12px 24px; background-color: #e91e63;
-            color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
-            Pay Now
-          </a>
+          <p><strong>UPI ID:</strong> omk145593@okaxis</p>
+
+          <p>After payment, please fill out this google form to confirm your payment: https://docs.google.com/forms/d/e/1FAIpQLSczwiDs41nSSPoW3Vlj-o7tSrSTKa3kHAUbi5ujBcsfwua4eg/viewform?usp=dialog</p>
 
           <p style="margin-top: 20px;">
             Thank you for choosing <strong>Anita's Makeover</strong>. We look forward to serving you.
