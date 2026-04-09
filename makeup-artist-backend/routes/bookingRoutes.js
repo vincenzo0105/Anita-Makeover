@@ -172,7 +172,7 @@ router.put("/:id", async (req, res) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "Anita's Makeover <booking@send.anitasmakeover.in>",
+          from: "Anita's Makeover <booking@anitasmakeover.in>",
           to: updated.email,
           subject,
           html,
