@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Bookings() {
 
   const [bookings, setBookings] = useState([]);
@@ -14,23 +15,46 @@ export default function Bookings() {
   }, []);
 
   const updateStatus = async (id, status) => {
-    try {
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${id}`, {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/bookings/${id}`,
+      {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ status })
-      });
+        body: JSON.stringify({ status }),
+      }
+    );
 
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`);
-      const data = await res.json();
-      setBookings(data);
-
-    } catch (err) {
-      console.log(err);
+    if (!response.ok) {
+      throw new Error("Failed to update booking status");
     }
-  };
+
+    const updatedBooking = await response.json();
+
+    // Update UI instantly
+    setBookings((prevBookings) =>
+      prevBookings.map((booking) =>
+        booking._id === id ? updatedBooking : booking
+      )
+    );
+
+    // Display success messages
+    if (status === "Approved") {
+      toast.success("Booking approved! Payment email sent to the client. 💌");
+    } else if (status === "Cancelled") {
+      toast.info("Booking cancelled. Email notification sent.");
+    } else if (status === "Paid") {
+      toast.success("Payment confirmed. Booking finalized. ✅");
+    } else {
+      toast.success(`Booking marked as ${status}.`);
+    }
+  } catch (error) {
+    console.error("Error updating status:", error);
+    toast.error("Failed to update booking. Please try again.");
+  }
+};
 
   // ✅ APPROVAL MESSAGE
   const sendApprovalWhatsApp = (booking) => {
@@ -105,8 +129,15 @@ const openMap = (booking) => {
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
-    <div>
 
+    
+    <div>
+{/* Toast Notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+      />
       <h1>Bookings</h1>
 
       {/* FILTER */}
