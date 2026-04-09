@@ -3,11 +3,14 @@ console.log("🔥 THIS IS THE REAL BACKEND FILE");
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
-const nodemailer = require("nodemailer"); // ✅ NEW
 
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+// Dynamic import for node-fetch
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-// GET all bookings
+// ===============================
+// 📌 GET ALL BOOKINGS
+// ===============================
 router.get("/", async (req, res) => {
   try {
     const bookings = await Booking.find();
@@ -17,12 +20,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST booking
+// ===============================
+// 📌 CREATE NEW BOOKING
+// ===============================
 router.post("/", async (req, res) => {
   try {
     console.log("BOOKING ROUTE HIT 🚀");
     console.log("Incoming booking:", req.body);
-console.log("EMAIL RECEIVED IN BACKEND:", req.body.email);
+
     const booking = new Booking({
       service: req.body.service,
       addOns: req.body.addOns,
@@ -35,66 +40,153 @@ console.log("EMAIL RECEIVED IN BACKEND:", req.body.email);
       time: req.body.time,
       message: req.body.message,
       totalAmount: req.body.totalAmount,
-      status: "Pending"
+      status: "Pending",
     });
 
     const saved = await booking.save();
     console.log("SAVED EMAIL IN DB:", saved.email);
-    res.status(201).json(saved);
 
+    res.status(201).json(saved);
   } catch (err) {
     console.error("Booking error:", err);
     res.status(500).json({ message: err.message });
   }
 });
 
-// ✅ UPDATE status + SEND EMAIL
+// ===============================
+// 📌 UPDATE STATUS + SEND EMAIL
+// ===============================
 router.put("/:id", async (req, res) => {
   try {
     const updated = await Booking.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status },
-      { returnDocument: "after" }
+      { new: true }
     );
 
-    console.log("Status updated:", req.body.status);
-console.log("Updated booking FULL:", updated);
-    // 👉 ADD THIS BLOCK
-    if (req.body.status === "Approved") {
-      console.log("EMAIL TRIGGERED");
-console.log("EMAIL BEING SENT TO:", updated.email);
-      // call your payment route or generate link
-      const paymentLink = `https://makeup-artist-website-two.vercel.app/payment/${updated._id}`;
+    if (!updated) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
 
-      // send email
+    console.log("Status updated:", req.body.status);
+    console.log("Updated booking:", updated);
+
+    const paymentLink = `https://www.anitasmakeover.in/payment/${updated._id}`;
+
+    let subject = "";
+    let html = "";
+
+    // ===============================
+    // 💄 APPROVED EMAIL
+    // ===============================
+    if (req.body.status === "Approved") {
+      subject = "Your Booking Has Been Approved 💄";
+      html = `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: #e91e63;">Anita's Makeover</h2>
+          <h3>Hello ${updated.name},</h3>
+          <p>We are delighted to inform you that your booking has been <strong>approved</strong>.</p>
+          
+          <table style="border-collapse: collapse; width: 100%; margin: 15px 0;">
+            <tr><td><strong>Service:</strong></td><td>${updated.service}</td></tr>
+            <tr><td><strong>Date:</strong></td><td>${updated.date}</td></tr>
+            <tr><td><strong>Time:</strong></td><td>${updated.time}</td></tr>
+            <tr><td><strong>Total Amount:</strong></td><td>₹${updated.totalAmount}</td></tr>
+          </table>
+
+          <p>Please complete your payment using the link below:</p>
+
+          <a href="${paymentLink}"
+            style="display: inline-block; padding: 12px 24px; background-color: #e91e63;
+            color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            Pay Now
+          </a>
+
+          <p style="margin-top: 20px;">
+            Thank you for choosing <strong>Anita's Makeover</strong>. We look forward to serving you.
+          </p>
+
+          <p>Warm regards,<br/><strong>Anita's Makeover Team</strong></p>
+        </div>
+      `;
+    }
+
+    // ===============================
+    // ❌ CANCELLED EMAIL
+    // ===============================
+    else if (req.body.status === "Cancelled") {
+      subject = "Your Booking Has Been Cancelled";
+      html = `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #e91e63;">Anita's Makeover</h2>
+          <h3>Hello ${updated.name},</h3>
+          <p>We regret to inform you that your booking has been cancelled.</p>
+
+          <table style="border-collapse: collapse; width: 100%; margin: 15px 0;">
+            <tr><td><strong>Service:</strong></td><td>${updated.service}</td></tr>
+            <tr><td><strong>Date:</strong></td><td>${updated.date}</td></tr>
+            <tr><td><strong>Time:</strong></td><td>${updated.time}</td></tr>
+          </table>
+
+          <p>Please feel free to book another appointment at your convenience.</p>
+
+          <p>Best regards,<br/><strong>Anita's Makeover Team</strong></p>
+        </div>
+      `;
+    }
+
+    // ===============================
+    // 💰 PAYMENT CONFIRMATION EMAIL
+    // ===============================
+    else if (req.body.status === "Paid") {
+      subject = "Payment Confirmed – Booking Successful ✅";
+      html = `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #e91e63;">Anita's Makeover</h2>
+          <h3>Hello ${updated.name},</h3>
+          <p>Your payment has been received successfully.</p>
+          <p>Your booking is now <strong>confirmed</strong>.</p>
+
+          <table style="border-collapse: collapse; width: 100%; margin: 15px 0;">
+            <tr><td><strong>Service:</strong></td><td>${updated.service}</td></tr>
+            <tr><td><strong>Date:</strong></td><td>${updated.date}</td></tr>
+            <tr><td><strong>Time:</strong></td><td>${updated.time}</td></tr>
+            <tr><td><strong>Total Amount:</strong></td><td>₹${updated.totalAmount}</td></tr>
+          </table>
+
+          <p>We look forward to enhancing your natural beauty. 💄</p>
+
+          <p>Warm regards,<br/><strong>Anita's Makeover Team</strong></p>
+        </div>
+      `;
+    }
+
+    // ===============================
+    // 📧 SEND EMAIL USING RESEND
+    // ===============================
+    if (subject && html && updated.email) {
       await fetch("https://api.resend.com/emails", {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    from: "Anita's Makeover <omk145593@gmail.com>",
-    to: updated.email,
-    subject: "Complete Your Booking Payment 💄",
-    html: `
-      <h2>Your booking is approved!</h2>
-      <p>Please complete your payment:</p>
-      <a href="${paymentLink}">Pay Now</a>
-    `
-  }),
-});
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "Anita's Makeover <booking@send.anitasmakeover.in>",
+          to: updated.email,
+          subject,
+          html,
+        }),
+      });
 
       console.log("📧 Email sent to:", updated.email);
     }
 
     res.json(updated);
-
   } catch (error) {
-    console.error(error);
+    console.error("Email Error:", error);
     res.status(500).json({ message: error.message });
   }
 });
-
 
 module.exports = router;
