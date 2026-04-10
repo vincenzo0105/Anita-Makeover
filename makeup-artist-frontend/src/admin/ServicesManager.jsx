@@ -192,22 +192,29 @@ export default function ServicesManage() {
 
           <div style={{ gridColumn: "span 2" }}>
             <label>Current Image</label>
-            {s.image ? (
-  <img
-    src={getImageUrl(s.image)}
-    alt="Current Service"
-    style={{
-      width: "120px",
-      height: "120px",
-      objectFit: "cover",
-      borderRadius: "8px",
-      border: "1px solid #ddd",
-      marginTop: "10px",
-    }}
-  />
-) : (
-  <p style={{ color: "#888" }}>No image available</p>
-)}
+            <div style={{ gridColumn: "span 2" }}>
+  <label>Current Image</label>
+  {s.image ? (
+    <img
+      src={getImageUrl(s.image)}
+      alt={s.name}
+      style={{
+        width: "120px",
+        height: "120px",
+        objectFit: "cover",
+        borderRadius: "8px",
+        border: "1px solid #ddd",
+        marginTop: "10px"
+      }}
+      onError={(e) => {
+        console.error("Image failed to load:", s.image);
+        e.target.style.display = "none";
+      }}
+    />
+  ) : (
+    <p style={{ color: "#888" }}>No image available</p>
+  )}
+</div>
           </div>
 
           <div style={{ gridColumn: "span 2" }}>
