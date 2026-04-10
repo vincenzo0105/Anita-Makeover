@@ -22,7 +22,7 @@ export default function Footer() {
       {/* 👇 NEW LINKS SECTION */}
       <div>
         <h4>Quick Links</h4>
-        <p><Link to="/contact">Contact</Link></p>
+        <Link to="/privacy">Privacy Policy</Link>
         <p><Link to="/terms">Terms & Conditions</Link></p>
         <p><Link to="/refund-policy">Refund Policy</Link></p>
       </div>

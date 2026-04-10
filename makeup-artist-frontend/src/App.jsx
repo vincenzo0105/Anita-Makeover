@@ -19,7 +19,8 @@ import BookingsCalendar from "./admin/BookingsCalendar";
 
 import Terms from "./pages/Terms";
 import RefundPolicy from "./pages/RefundPolicy";
-import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
         <Route path="/about" element={<About />} />
 <Route path="/terms" element={<Terms />} />
 <Route path="/refund-policy" element={<RefundPolicy />} />
-<Route path="/contact" element={<Contact />} />
+<Route path="/privacy" element={<PrivacyPolicy />} />
         {/* ✅ NEW PAYMENT ROUTE */}
         <Route path="/payment/:id" element={<PaymentPage />} />
 
