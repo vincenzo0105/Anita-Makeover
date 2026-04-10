@@ -25,9 +25,10 @@ export default function Footer() {
       {/* Contact Section */}
       <div className="footer-section">
         <h4>Contact Us</h4>
-        <p>Kalyan West</p>
         <p>+91 8369394088</p>
         <p>anitakumavat24@gmail.com</p>
+        <p>Kalyan West</p>
+      
       </div>
 
       {/* Quick Links Section */}
