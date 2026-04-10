@@ -3501,10 +3501,15 @@ textarea {
   }
 
   /* Copyright text */
-  .footer-bottom {
-    width: 100%;
-    text-align: center;
-    font-size: 13px;
-    margin-top: 20px;
-  }
+  /* Footer Bottom Copyright */
+.footer-bottom {
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+  color: #555;
+  flex-basis: 100%;
+}
 }
