@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { getImageUrl } from "../utils/getImageUrl";
 export default function ServicesManage() {
   const [services, setServices] = useState([]);
   const [newService, setNewService] = useState({
@@ -192,13 +192,22 @@ export default function ServicesManage() {
 
           <div style={{ gridColumn: "span 2" }}>
             <label>Current Image</label>
-            {s.image && (
-              <img
-                src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${s.image}`}
-                alt=""
-                style={{ width: "120px", borderRadius: "8px" }}
-              />
-            )}
+            {s.image ? (
+  <img
+    src={getImageUrl(s.image)}
+    alt="Current Service"
+    style={{
+      width: "120px",
+      height: "120px",
+      objectFit: "cover",
+      borderRadius: "8px",
+      border: "1px solid #ddd",
+      marginTop: "10px",
+    }}
+  />
+) : (
+  <p style={{ color: "#888" }}>No image available</p>
+)}
           </div>
 
           <div style={{ gridColumn: "span 2" }}>
