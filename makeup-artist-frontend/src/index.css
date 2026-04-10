@@ -3261,3 +3261,50 @@ textarea {
   object-fit: cover;
 }
 
+.privacy-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.7;
+}
+
+.privacy-container h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #0b132b;
+}
+
+.last-updated {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #777;
+  font-size: 14px;
+}
+
+.privacy-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.privacy-card h2 {
+  margin-top: 20px;
+  color: #0b132b;
+  font-size: 20px;
+}
+
+.privacy-card p {
+  margin: 10px 0;
+}
+
+.privacy-card ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.privacy-card ul li {
+  margin-bottom: 8px;
+}
