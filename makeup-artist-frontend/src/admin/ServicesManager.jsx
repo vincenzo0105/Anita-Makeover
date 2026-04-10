@@ -193,16 +193,16 @@ export default function ServicesManage() {
           <div style={{ gridColumn: "span 2" }}>
             <label>Current Image</label>
             <div style={{ gridColumn: "span 2" }}>
-  <label>Current Image</label>
+  
   {s.image ? (
     <img
       src={getImageUrl(s.image)}
       alt={s.name}
       style={{
-        width: "120px",
-        height: "120px",
+        width: "250px",
+        height: "180px",
         objectFit: "cover",
-        borderRadius: "8px",
+        borderRadius: "12px",
         border: "1px solid #ddd",
         marginTop: "10px"
       }}
