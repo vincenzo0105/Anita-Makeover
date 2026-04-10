@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import getImageUrl from "../utils/getImageUrl";
 export default function PortfolioManager() {
   const [images, setImages] = useState([]);
 
@@ -64,9 +64,14 @@ export default function PortfolioManager() {
     {images.map((img) => (
       <div key={img._id} className="portfolio-card">
         <img
-          src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${img.image}`}
-          alt="portfolio"
-        />
+              src={getImageUrl(img.image)} // ✅ Handles Cloudinary + local images
+              alt="portfolio"
+              className="portfolio-image"
+              onError={(e) => {
+                console.error("Image failed to load:", img.image);
+                e.target.src = "/placeholder.png"; // Optional fallback
+              }}
+            />
 
         <button
           className="delete-btn"
