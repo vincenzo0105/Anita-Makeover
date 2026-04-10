@@ -199,12 +199,14 @@ export default function ServicesManage() {
       src={getImageUrl(s.image)}
       alt={s.name}
       style={{
-        width: "250px",
-        height: "180px",
-        objectFit: "cover",
-        borderRadius: "12px",
-        border: "1px solid #ddd",
-        marginTop: "10px"
+       width: "100%",
+    maxWidth: "300px",
+    height: "auto",
+    objectFit: "cover",
+    borderRadius: "12px",
+    border: "1px solid #ddd",
+    marginTop: "10px",
+    display: "block"
       }}
       onError={(e) => {
         console.error("Image failed to load:", s.image);
