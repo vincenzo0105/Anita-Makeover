@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
         
         <h2>1. Introduction</h2>
         <p>
-          Artistry by Anita Kumavat ("we," "our," or "us") is committed to
+          Anita's Makeover by Anita Kumavat ("we," "our," or "us") is committed to
           protecting your privacy. This Privacy Policy explains how we collect,
           use, and safeguard your personal information when you visit our website.
         </p>

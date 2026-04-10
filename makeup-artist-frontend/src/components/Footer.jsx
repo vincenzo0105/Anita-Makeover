@@ -5,26 +5,28 @@ export default function Footer() {
   return (
     <footer className="footer">
       
-      <div>
-        <h3>ARTISTRY BY ANITA KUMAVAT</h3>
+      {/* Brand Section */}
+      <div className="footer-section">
+        <h3>ANITA'S MAKEOVER BY ANITA KUMAVAT</h3>
         <p>
           Providing luxury makeup services across the metropolitan
           area for bridal and editorial occasions.
         </p>
       </div>
 
-      <div>
+      {/* Contact Section */}
+      <div className="footer-section">
         <p>Kalyan West</p>
         <p>+91 8369394088</p>
         <p>anitakumavat24@gmail.com</p>
       </div>
 
-      {/* 👇 NEW LINKS SECTION */}
-      <div>
+      {/* Quick Links Section */}
+      <div className="footer-section">
         <h4>Quick Links</h4>
-        <Link to="/privacy">Privacy Policy</Link>
-        <p><Link to="/terms">Terms & Conditions</Link></p>
-        <p><Link to="/refund-policy">Refund Policy</Link></p>
+        <Link className="footer-link" to="/privacy">Privacy Policy</Link>
+        <Link className="footer-link" to="/terms">Terms & Conditions</Link>
+        <Link className="footer-link" to="/refund-policy">Refund Policy</Link>
       </div>
 
     </footer>
