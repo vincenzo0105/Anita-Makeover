@@ -3316,12 +3316,14 @@ textarea {
 .footer {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 40px;
-  padding: 40px 10%;
-  background-color: pink;
+  padding: 50px 10%;
+  background: linear-gradient(135deg, #ffe4ec, #ffd6e7);
   color: #333;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #f8c8dc;
+  animation: fadeInUp 0.8s ease-in-out;
 }
 
 /* Footer Sections */
@@ -3330,22 +3332,72 @@ textarea {
   min-width: 220px;
 }
 
+/* Brand Heading */
 .footer h3 {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 20px;
   letter-spacing: 1px;
+  color: #2c2c2c;
 }
 
+/* Section Headings */
 .footer h4 {
   margin-bottom: 12px;
   font-size: 18px;
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+}
+
+/* Elegant Underline for Headings */
+.footer h4::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background-color: #d63384;
+  margin-top: 5px;
+  transition: width 0.3s ease;
+}
+
+.footer h4:hover::after {
+  width: 60px;
+}
+
+/* Paragraph Styling */
+.footer p {
+  margin: 6px 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Logo and Brand Alignment */
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+/* Footer Logo */
+.footer-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-logo:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 10px rgba(214, 51, 132, 0.25);
 }
 
 /* Animated Links */
 .footer-link {
   display: block;
   text-decoration: none;
-  color: #5a2ea6;
+  color: #6a1b9a;
   margin-bottom: 8px;
   font-size: 16px;
   position: relative;
@@ -3381,10 +3433,6 @@ textarea {
 }
 
 /* Smooth Fade-in Animation */
-.footer {
-  animation: fadeInUp 0.8s ease-in-out;
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -3401,28 +3449,19 @@ textarea {
   .footer {
     flex-direction: column;
     text-align: center;
+    padding: 40px 8%;
+  }
+
+  .brand-container {
+    justify-content: center;
+  }
+
+  .footer h4::after {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .footer-link:hover {
     transform: none;
   }
-}
-
-/* Section Headings */
-.footer-section h4 {
-  font-size: 18px;
-  margin-bottom: 12px;
-  font-weight: 600;
-  color: #333;
-  position: relative;
-}
-
-/* Elegant Underline Effect */
-.footer-section h4::after {
-  content: "";
-  display: block;
-  width: 40px;
-  height: 2px;
-  background-color: #d63384; /* Beauty-themed accent */
-  margin-top: 6px;
 }
