@@ -38,9 +38,10 @@ export default function Footer() {
         <Link className="footer-link" to="/terms">Terms & Conditions</Link>
         <Link className="footer-link" to="/refund-policy">Refund Policy</Link>
       </div>
-<p className="footer-bottom">
-  © {new Date().getFullYear()} Anita's Makeover by Anita Kumavat. All rights reserved.
-</p>
+{/* Footer Bottom */}
+      <div className="footer-bottom">
+        © {new Date().getFullYear()} Anita's Makeover by Anita Kumavat. All rights reserved.
+      </div>
     </footer>
   );
 }
