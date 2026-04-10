@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getImageUrl } from "../utils/getImageUrl";
+import getImageUrl from "../utils/getImageUrl";
 export default function ServicesManage() {
   const [services, setServices] = useState([]);
   const [newService, setNewService] = useState({
