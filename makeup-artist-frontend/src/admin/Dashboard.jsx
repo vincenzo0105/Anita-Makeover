@@ -67,7 +67,7 @@ export default function Dashboard() {
           <div className="dashboard-modal-box">
 
             <button
-              className="close-btn"
+              className="sheets-close-btn"
               onClick={() => setShowSheet(false)}
             >
               ✖
