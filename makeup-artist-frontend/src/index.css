@@ -3541,7 +3541,7 @@ textarea {
 }
 
 /* Overlay */
-.modal-overlay {
+.dashboard-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -3555,7 +3555,7 @@ textarea {
 }
 
 /* Modal Box */
-.modal-box {
+.dashboard-modal-box {
   background: white;
   width: 80%;
   max-width: 900px;

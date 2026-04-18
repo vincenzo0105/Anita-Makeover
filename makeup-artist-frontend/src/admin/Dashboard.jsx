@@ -63,8 +63,8 @@ export default function Dashboard() {
 
       {/* ✅ MODAL */}
       {showSheet && (
-        <div className="modal-overlay">
-          <div className="modal-box">
+        <div className="dashboard-modal-overlay">
+          <div className="dashboard-modal-box">
 
             <button
               className="close-btn"
