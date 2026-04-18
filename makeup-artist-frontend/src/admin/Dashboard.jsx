@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const [bookings, setBookings] = useState([]);
+  const [showSheet, setShowSheet] = useState(false);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`)
@@ -21,8 +22,8 @@ export default function Dashboard() {
   );
 
   const totalRevenue = bookings
-  .filter(b => b.status === "Paid")
-  .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
+    .filter(b => b.status === "Paid")
+    .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
 
   return (
     <div>
@@ -46,7 +47,42 @@ export default function Dashboard() {
           <p>₹{totalRevenue}</p>
         </div>
 
+        {/* ✅ NEW 4th CARD */}
+        <div className="stat-card">
+          <h3>Form Responses</h3>
+
+          <button
+            className="view-btn"
+            onClick={() => setShowSheet(true)}
+          >
+            View Responses
+          </button>
+        </div>
+
       </div>
+
+      {/* ✅ MODAL */}
+      {showSheet && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+
+            <button
+              className="close-btn"
+              onClick={() => setShowSheet(false)}
+            >
+              ✖
+            </button>
+
+            <iframe
+              src="https://docs.google.com/spreadsheets/d/1D0UYLk22weY8h_YM7sxfuLaI6xhs-iztaDs7-z_u_KE/preview"
+              width="100%"
+              height="400"
+              title="Google Sheet"
+            ></iframe>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );
