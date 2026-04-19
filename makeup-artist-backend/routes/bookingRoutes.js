@@ -71,7 +71,7 @@ router.put("/:id", async (req, res) => {
     console.log("Status updated:", req.body.status);
     console.log("Updated booking:", updated);
 
-    const paymentLink = `https://www.anitasmakeover.in/payment/${updated._id}`;
+    
 
     let subject = "";
     let html = "";
