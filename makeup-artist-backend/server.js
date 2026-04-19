@@ -10,8 +10,7 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const portfolioRoutes = require("./routes/portfolio");
 const adminAuthRoutes = require("./routes/adminAuth");
-const paymentRoutes = require("./routes/payment"); // ✅ NEW
-const webhookRoutes = require("./routes/paymentWebhook");
+
 
 
 // ✅ FIRST: middleware
@@ -42,8 +41,7 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/portfolio", portfolioRoutes);
 app.use("/admin", adminAuthRoutes);
-app.use("/api/payment", paymentRoutes); // Payment order creation
-app.use("/api/payment/webhook", webhookRoutes); // Webhook endpoint
+ // Webhook endpoint
 
 // static
 app.use("/uploads", express.static("uploads"));
