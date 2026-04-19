@@ -7,7 +7,7 @@ import Services from "./pages/Services";
 import Customize from "./pages/Customize";
 import Details from "./pages/Details";
 import About from "./pages/About";
-import PaymentPage from "./pages/PaymentPage"; // ✅ NEW
+
 
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
@@ -38,7 +38,7 @@ function App() {
 <Route path="/refund-policy" element={<RefundPolicy />} />
 <Route path="/privacy" element={<PrivacyPolicy />} />
         {/* ✅ NEW PAYMENT ROUTE */}
-        <Route path="/payment/:id" element={<PaymentPage />} />
+        
 
         {/* Login */}
         <Route path="/admin/login" element={<AdminLogin />} />
