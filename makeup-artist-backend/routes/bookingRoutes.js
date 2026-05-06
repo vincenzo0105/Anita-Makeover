@@ -3,7 +3,7 @@ console.log("🔥 THIS IS THE REAL BACKEND FILE");
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
-
+const QRCode = require("qrcode");
 // Dynamic import for node-fetch
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -81,7 +81,7 @@ router.put("/:id", async (req, res) => {
     // ===============================
     if (req.body.status === "Approved") {
       
-      const QRCode = require("qrcode");
+      
 
 const upiLink = `upi://pay?pa=omk145593@okaxis&pn=Anita%20Makeover&am=${updated.totalAmount}&cu=INR&tn=Booking%20Payment`;
 
