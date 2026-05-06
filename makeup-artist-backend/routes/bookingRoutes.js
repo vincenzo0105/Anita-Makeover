@@ -88,7 +88,7 @@ const amount = updated.totalAmount || 100;
 const upiLink = `upi://pay?pa=omk145593@okaxis&pn=AnitaMakeover&am=${amount}&cu=INR`;
 
 const qrBase64 = await QRCode.toDataURL(upiLink);
-
+console.log(qrBase64);
       subject = "Your Booking Has Been Approved 💄";
       html = `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
