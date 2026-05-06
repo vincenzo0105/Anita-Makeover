@@ -83,7 +83,7 @@ router.put("/:id", async (req, res) => {
       
       const QRCode = require("qrcode");
 
-const upiLink = `upi://pay?pa=omk145593@okaxis&pn=Anita%20Makeover&am=${updated.amountToPay}&cu=INR&tn=Booking%20Payment`;
+const upiLink = `upi://pay?pa=omk145593@okaxis&pn=Anita%20Makeover&am=${updated.totalAmount}&cu=INR&tn=Booking%20Payment`;
 
 const qrBase64 = await QRCode.toDataURL(upiLink);
 
