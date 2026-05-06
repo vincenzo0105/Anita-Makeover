@@ -83,12 +83,11 @@ router.put("/:id", async (req, res) => {
       
       
 
-const amount = updated.totalAmount || 100;
+const upiLink = `upi://pay?pa=omk145593@okaxis&pn=AnitaMakeover&am=${updated.totalAmount}&cu=INR`;
 
-const upiLink = `upi://pay?pa=omk145593@okaxis&pn=AnitaMakeover&am=${amount}&cu=INR`;
+const encodedUpi = encodeURIComponent(upiLink);
 
-const qrBase64 = await QRCode.toDataURL(upiLink);
-console.log(qrBase64);
+const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedUpi}`;
       subject = "Your Booking Has Been Approved 💄";
       html = `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
@@ -111,7 +110,7 @@ console.log(qrBase64);
 
 <p>
   <img 
-    src="${qrBase64}" 
+    src="${qrImageUrl}" 
     alt="UPI QR Code"
     style="width:220px; height:220px; border:1px solid #ddd; border-radius:10px;"
   />
