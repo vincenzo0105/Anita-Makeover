@@ -80,6 +80,13 @@ router.put("/:id", async (req, res) => {
     // 💄 APPROVED EMAIL
     // ===============================
     if (req.body.status === "Approved") {
+      
+      const QRCode = require("qrcode");
+
+const upiLink = `upi://pay?pa=omk145593@okaxis&pn=Anita%20Makeover&am=${updated.amountToPay}&cu=INR&tn=Booking%20Payment`;
+
+const qrBase64 = await QRCode.toDataURL(upiLink);
+
       subject = "Your Booking Has Been Approved 💄";
       html = `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
@@ -94,9 +101,23 @@ router.put("/:id", async (req, res) => {
             <tr><td><strong>Total Amount:</strong></td><td>₹${updated.totalAmount}</td></tr>
           </table>
 
-          <p>Please complete your payment on the UPI ID below:</p>
+          <p>Please complete your payment using the QR code below:</p>
 
-          <p><strong>UPI ID:</strong> omk145593@okaxis</p>
+<p>
+  <strong>Scan QR Code to Pay:</strong>
+</p>
+
+<p>
+  <img 
+    src="${qrBase64}" 
+    alt="UPI QR Code"
+    style="width:220px; height:220px; border:1px solid #ddd; border-radius:10px;"
+  />
+</p>
+<p>If you are unable to see QR Code, please use the UPI ID below to make the payment:</p>
+<p>
+  <strong>UPI ID:</strong> omk145593@okaxis
+</p>
 
           <p>After payment, please fill out this google form to confirm your payment: https://docs.google.com/forms/d/e/1FAIpQLSczwiDs41nSSPoW3Vlj-o7tSrSTKa3kHAUbi5ujBcsfwua4eg/viewform?usp=dialog</p>
 
