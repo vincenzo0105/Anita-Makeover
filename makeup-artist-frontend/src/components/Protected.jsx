@@ -13,7 +13,7 @@ export default function Protected({ children }) {
   try {
 
     const decoded = jwtDecode(token);
-
+console.log(jwtDecode(token));
     // Token expired
     if (decoded.exp * 1000 < Date.now()) {
 
